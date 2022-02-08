@@ -1,4 +1,3 @@
----
 title: 'Tarea 2: minhashing y LSH para textos'
 output: html_document
 ---
@@ -20,6 +19,9 @@ textos <- tibble(doc_id = 1:5,
                          "una uva", "una pera..."))
 textos
 ```
+
+
+
 
 Usamos como llave al documento y agrupamos:
 
@@ -49,6 +51,14 @@ Podemos usar la función *digest2int* del paquete digest
 library(digest)
 # producir valor hash de la cadena "hola"
 digest2int("hola")
+
+digest2int("hola ")
+digest2int("halo")
+digest2int("helar")
+digest2int("ola")
+digest2int("hielo")
+digest2int("hilo")
+
 ```
 
 Nota: quizá conoces otros hashes como md5 o sha-256, etc. Este tipo de hashes está
@@ -58,6 +68,8 @@ lento usar estos hashes vs otros que no son criptográficos.
 **Pregunta 1**: Prueba poniendo distintas cadenas en esta función. ¿Puedes ver algún
 patrón que ligue la entrada con valor hash producido? ¿Es cierto que si cambias poco
 la cadena de entrada la salida cambia poco?
+
+**Con palabras similares a la original los números del hash "digest2int" son muy diferentes entre si a pesar de variar en muy pocas letras, incluso un solo espacio produce un hash muy diferente**
 
 
 Aplicando este hash a nuestros documentos completos:
@@ -92,6 +104,8 @@ exactamente iguales necesariamente.**
 de documentos muy similares. ¿Qué pasa con hashes de documentos que son muy similares
 pero no exactamente iguales? 
 
+**Porque solo agrupará a textos que son exactamente iguales, los textos que difieran por cualquier caracter tendrán hashes diferentes**
+
 
 ### Similitud de jaccard y minhash
 
@@ -117,6 +131,8 @@ textos <- tibble(doc_id = 1:5,
                          "algunas uvas verdes", "una pera..."))
 textos
 ```
+
+
 ```{r}
 tejas_tbl <- textos |> mutate(tejas = map(doc, ~ calcular_tejas(.x, k = 3)))
 tejas_tbl
@@ -146,6 +162,10 @@ Nótese ahora que aún cuando el documento 1 y 3 no son idénticos, su minhash e
 
 **Pregunta 3**: ¿Por qué el minhash de 1 y 3 son iguales? ¿Exactamente en qué teja ocurre el mínimo para cada uno de estos documentos? Explica por qué si los dos documentos son muy diferentes, entonces es poco probable el mínimo ocurra en una teja común.
 
+**Porque ambos comparten la misma teja a la cual se le asigno el hash que resulto ser el minimo de todas las tejas de ambos (zan)**
+
+**Si los documentos son muy diferentes entonces tendrán muy pocas tejas en comun lo cual hace que sea muy poco probable que compartan la teja a la cual se le asignará el minhash**
+
 ### Agrupando con minhashes
 
 Ahora repetimos los cálculos con la tabla y agrupamos:
@@ -172,8 +192,15 @@ de los pares posibles.
 **Pregunta 4**: esta última tabla se llama la tabla de **candidatos de similitud alta**. Explica por qué debemos considerarlos como candidatos. ¿Cuándo puede ser que dos documentos que son poco similares tengan el mismo minhash? Es decir, cómo puede pasar que tengamos un
 *falso positivo* con este proceso?
 
+**Todos los que comparten un minhash se consideran como candidatos dado que para que esto ocurra es muy probable que se deba a que tienen muchas tejas en común**
+
+**Los falsos positivos se pueden dar debido al azar si coincide que tienen en comun justo la teja a la que se le asigna el minhash y muy pocas en común (no son textos similares)**
+
 **Pregunta 5**: Con este método también podemos obtener *falsos negativos*, es decir, no capturar pares muy similares como candidatos en nuestra tabla. ¿Cómo puede pasar esto
 en término de tejas y hashes?
+
+**Los falsos negativos ocurren cuando en las pocas tejas en las que difieren se encuentra una teja a la cual se le asignará el minhash y por lo tanto no tendrán el mismo minhash y se descartaran como textos candidatos aun que si sean similares**
+
 
 Estos dos problemas podemos resolverlos extendiendo este mismo método, como veremos 
 después.
@@ -303,9 +330,6 @@ o más pares candidatos?
 es $s$. ¿Cuál es la probabilidad de capturarlo como par candidatos con un solo minhash?
 Suponiendo que los tres minhashes se escogen independientemente, ¿Cuál es la probabilidad
 de capturar un par de similitud $s$ si pedimos que al menos uno de los tres minhashes coincida? ¿Cuál es la probabilidad si pedimos que los tres minhashes coincidan?
-
-
-
 
 
 
