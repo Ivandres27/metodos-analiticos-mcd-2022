@@ -35,6 +35,8 @@ nrow(dbl)
 tendrías que hacer? Si cada tabla contuviera unos 2 millones de documentos, ¿qué tan 
 factible sería hacer todas las posibles comparaciones?
 
+**Con 2 millones de de documentos se tendrian que hacer 4 billones (2 millones^2) de comparaciones**
+
 ## Tejas y hashing
 
 Primero hacemos una limpieza básica (puedes reconsiderar este proceso
@@ -53,10 +55,17 @@ dbl_1 <- dbl |> select(id, title, authors) |>
 ```
 
 **Pregunta 2**: ¿por qué definimos el texto incluyendo algún espacio en blanco entre título y autor?
+
+**Para que a la hora de examinar a través de tejas se pueda hacer una distincion entre el titulo y los nombres de los autores**
+
 ¿Qué otra estrategia se te ocurre para convertir en tejas?
+**Otra posible estrategia es hacer una columna de tejas por texto y otra por autores y evaluar candidatos por similitud en texto y autores**
+
 
 **Pregunta 3**: cuántas comparaciones tendrías que hacer si calcularas
 la similitud entre todos los posibles pares?
+**Se tendrian que hacer 2294*2616=6001104 comparaciones**
+
 
 ```{r}
 # función de las notas
@@ -151,16 +160,24 @@ candidatos_score_tbl
 **Pregunta 4**: explica cómo se calcula la columna *score* en la tabla de candidatos,
 y da unos ejemplos.
 
+**El score se calcula con la formula de similitud de jaccard dentro se los pares que fueron agrupados en las cubetas como candidatos**
+
 
 **Pregunta 5**: ¿Cuántas comparaciones tuviste qué hacer (cálculos de similitud)? Compara con el total
 de comparaciones que es posible hacer entre estas dos tablas.
 
+**El score de los candidatos se realizo a 145757 en comparaión de las 6001104 de posibles comparaciones entre ambas tablas**
 
 **Pregunta 6**: 
 ¿Cuántos pares candidatos obtuviste?
+**Se analizarón 145757 pares candidatos**
+
 Examina algunos elementos con similitud uno o cercana a uno. ¿Se refieren al
 mismo artículo en las dos fuentes? 
 
+```{r}
+sort(candidatos_score_tbl,score)
+```
 
 
 ## Examinar resultados
