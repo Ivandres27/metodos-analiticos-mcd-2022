@@ -176,28 +176,39 @@ Examina algunos elementos con similitud uno o cercana a uno. ¿Se refieren al
 mismo artículo en las dos fuentes? 
 
 ```{r}
-sort(candidatos_score_tbl,score)
+candidatos_ordenados<-arrange(candidatos_score_tbl,score)
+head(candidatos_ordenados)
 ```
 
 
 ## Examinar resultados
 
-**Pregunta 8**: Ahora considera los elementos 
-con similitud más baja que capturaste. Examina varios casos y concluye
-si hay pares que no se refieren al mismo artículo, y por qué.
+```{r}
+acm_filt<- filter(acm_1,id %in% C$idACM)
+dbl_filt<- filter(dbl_1,id %in% C$idDBL)
+comparaciones<-tibble(acm_title=acm_filt$title,dbl_title=dbl_filt$title,acm_authors=acm_filt$authors,dbl_authors=dbl_filt$authors)
+```
 
+
+
+**Pregunta 8**: Ahora considera los elementos con similitud más baja que capturaste. Examina varios casos y concluye si hay pares que no se refieren al mismo artículo, y por qué.
+
+**Comparando los casos con score mas bajo solo uno par comparten el mismo titulo**
 
 **Pregunta 9**: propón un punto de corte de similitud para la tabla de arriba, según tus
 observaciones de la pregunta anterior.
 
+
 ```{r}
 # código filtrando con score > tu_numero, y examinando los elementos
 # de similitud más baja
-candidatos_filt <- filter(candidatos_score_tbl, score > 0.3)
+candidatos_filt <- filter(candidatos_score_tbl, score > 0.1)
 tail(candidatos_filt)
 ```
 
 **Pregunta 10**: ¿cuántos pares candidatos obtuviste al final?
+
+**Con una tolerancia de score > 0.1 hay 9830 pares candidatos**
 
 
 ## Evaluación de resultados
@@ -224,15 +235,21 @@ nrow(ambos)
 *Pregunta 11*: ¿Hubiera funcionado igualmente bien hacer un join usando 
 autores o título en lugar de este join por similitud?
 
+**No hubiera sido igual dado que parte de la similitud se da por ambos factores que se incluyen en las tejas de cada texto**
+
 *Pregunta 12 *: Evalúa precisión y recall de tu método. Para distintas aplicaciones que te
 puedas imaginar, ¿qué tan buenos son estos resultados? ¿Qué consideras
 mejor en este punto, tener precisión o recall alto? 
 
+
+
 ```{r}
-#precision <- 
-#precision
-#recall <- 
-#recall
+falsos_negativos<-nrow(anti_join(mapping, candidatos_filt)) 
+falsos_positivos<-nrow(anti_join(candidatos_filt, mapping))
+precision <- 2224/(2224+falsos_positivos)
+precision
+recall <- 2224/(2224+falsos_negativos)
+recall
 ```
 
 
