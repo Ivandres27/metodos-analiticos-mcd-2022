@@ -35,7 +35,15 @@ nrow(dbl)
 tendrías que hacer? Si cada tabla contuviera unos 2 millones de documentos, ¿qué tan 
 factible sería hacer todas las posibles comparaciones?
 
+<<<<<<< HEAD
 **Con 2 millones de de documentos se tendrian que hacer 4 billones (2 millones^2) de comparaciones**
+=======
+```{r}
+nrow(acm) * nrow(dbl) 
+2e6 * 2e6 / 2
+```
+
+>>>>>>> 1b3c8c66919face7c9e876b62f0433c7e43c7a87
 
 ## Tejas y hashing
 
@@ -47,13 +55,14 @@ acm_1 <- acm |> select(id, title, authors) |>
   mutate(texto = paste(title, authors, sep = "    ")) |> 
   mutate(id = as.character(id)) |> 
   mutate(texto = str_to_lower(texto)) |> 
-  mutate(texto = str_remove_all(texto, pattern = "[^A-Za-z0-9 -]"))
+  mutate(texto = str_remove_all(texto, pattern = "[^a-z -]"))
 dbl_1 <- dbl |> select(id, title, authors) |> 
   mutate(texto = paste(title, authors, sep = "    ")) |> 
   mutate(texto = str_to_lower(texto)) |> 
-  mutate(texto = str_remove_all(texto, pattern = "[^A-Za-z0-9 -]"))
+  mutate(texto = str_remove_all(texto, pattern = "[^a-z -]"))
 ```
 
+<<<<<<< HEAD
 **Pregunta 2**: ¿por qué definimos el texto incluyendo algún espacio en blanco entre título y autor?
 
 **Para que a la hora de examinar a través de tejas se pueda hacer una distincion entre el titulo y los nombres de los autores**
@@ -61,6 +70,11 @@ dbl_1 <- dbl |> select(id, title, authors) |>
 ¿Qué otra estrategia se te ocurre para convertir en tejas?
 **Otra posible estrategia es hacer una columna de tejas por texto y otra por autores y evaluar candidatos por similitud en texto y autores**
 
+=======
+**Pregunta 2**: ¿por qué definimos el texto incluyendo algún espacio en blanco entre título y autor? ¿Qué otra estrategia se te ocurre para convertir en tejas?
+
+Vamos a usar tejas de tamaño 5, y así las tejas de título y autor están separadas.
+>>>>>>> 1b3c8c66919face7c9e876b62f0433c7e43c7a87
 
 **Pregunta 3**: cuántas comparaciones tendrías que hacer si calcularas
 la similitud entre todos los posibles pares?
@@ -98,7 +112,7 @@ Por ejemplo, para el primer documento tenemos el contenido y los minhashes calcu
 
 ```{r}
 acm_tejas$texto[[1]]
-dbl_tejas$tejas[[1]]
+acm_tejas$tejas[[1]]
 ```
 
 Ahora calculamos minhashes
@@ -106,7 +120,7 @@ Ahora calculamos minhashes
 ```{r}
 set.seed(88345)
 # crear hashes
-hashes <- map(1:2, ~ generar_hash())
+hashes <- map(1:3, ~ generar_hash())
 
 construir_firmas <- function(hashes, tejas){
   tibble(hash_num = 1:length(hashes), 
@@ -133,6 +147,7 @@ Ahora hacemos una unión por cubetas para obtener nuestros pares candidatos:
 ```{r}
 candidatos_tbl <- inner_join(acm_firmas |> rename(idACM = id), 
                           dbl_firmas |> rename(idDBL = id))
+candidatos_tbl
 ```
 
 
@@ -160,13 +175,30 @@ candidatos_score_tbl
 **Pregunta 4**: explica cómo se calcula la columna *score* en la tabla de candidatos,
 y da unos ejemplos.
 
+<<<<<<< HEAD
 **El score se calcula con la formula de similitud de jaccard dentro se los pares que fueron agrupados en las cubetas como candidatos**
+=======
+Similitud de jaccard entre las tejas de los candidatos.
+
+```{r}
+candidatos_score_tbl |> summarise(media_score = mean(score))
+candidatos_score_tbl |> ggplot(aes(sample = score)) + geom_qq(distribution = stats::qunif)
+```
+
+>>>>>>> 1b3c8c66919face7c9e876b62f0433c7e43c7a87
 
 
 **Pregunta 5**: ¿Cuántas comparaciones tuviste qué hacer (cálculos de similitud)? Compara con el total
 de comparaciones que es posible hacer entre estas dos tablas.
 
+<<<<<<< HEAD
 **El score de los candidatos se realizo a 145757 en comparaión de las 6001104 de posibles comparaciones entre ambas tablas**
+=======
+```{r}
+nrow(candidatos_score_tbl)
+```
+
+>>>>>>> 1b3c8c66919face7c9e876b62f0433c7e43c7a87
 
 **Pregunta 6**: 
 ¿Cuántos pares candidatos obtuviste?
@@ -176,8 +208,18 @@ Examina algunos elementos con similitud uno o cercana a uno. ¿Se refieren al
 mismo artículo en las dos fuentes? 
 
 ```{r}
+<<<<<<< HEAD
 candidatos_ordenados<-arrange(candidatos_score_tbl,score)
 head(candidatos_ordenados)
+=======
+candidatos_score_tbl |> arrange(desc(score))
+```
+
+
+```{r}
+filter(dbl_1, id == "journals/sigmod/BuchnerM98") |> pull(texto)
+filter(acm_1, id == 306124) |> pull(texto)
+>>>>>>> 1b3c8c66919face7c9e876b62f0433c7e43c7a87
 ```
 
 
@@ -204,11 +246,18 @@ observaciones de la pregunta anterior.
 # de similitud más baja
 candidatos_filt <- filter(candidatos_score_tbl, score > 0.1)
 tail(candidatos_filt)
+nrow(candidatos_filt)
 ```
 
 **Pregunta 10**: ¿cuántos pares candidatos obtuviste al final?
 
+<<<<<<< HEAD
 **Con una tolerancia de score > 0.1 hay 9830 pares candidatos**
+=======
+```{r}
+nrow(candidatos_filt)
+```
+>>>>>>> 1b3c8c66919face7c9e876b62f0433c7e43c7a87
 
 
 ## Evaluación de resultados
@@ -218,7 +267,8 @@ correctas, que están en la carpeta de los datos.
 
 
 ```{r}
-mapping <- read_csv("../datos/entity_matching/DBLP-ACM_perfectMapping.csv")
+mapping <- read_csv("../datos/entity_matching/DBLP-ACM_perfectMapping.csv") |> 
+  rename(idDBL = idDBLP)
 ```
 
 
@@ -226,7 +276,7 @@ Podemos calcular el número de pares verdaderos que son candidatos (recuperados)
 candidatos que son candidatos pero no son pares verdaderos, por ejemplo:
 
 ```{r}
-mapping <- mapping |> mutate(idACM = as.character(idACM))
+mapping <- mapping |> mutate(idACM = as.character(idACM)) 
 ambos <- inner_join(candidatos_filt, mapping)
 nrow(candidatos_filt)
 nrow(ambos)
@@ -244,11 +294,17 @@ mejor en este punto, tener precisión o recall alto?
 
 
 ```{r}
+<<<<<<< HEAD
 falsos_negativos<-nrow(anti_join(mapping, candidatos_filt)) 
 falsos_positivos<-nrow(anti_join(candidatos_filt, mapping))
 precision <- 2224/(2224+falsos_positivos)
 precision
 recall <- 2224/(2224+falsos_negativos)
+=======
+precision <- nrow(ambos) / nrow(candidatos_filt)
+precision
+recall <- nrow(ambos) / nrow(mapping)
+>>>>>>> 1b3c8c66919face7c9e876b62f0433c7e43c7a87
 recall
 ```
 
@@ -270,3 +326,7 @@ anti_join(candidatos_filt, mapping)
 
 
 **Pregunta 11**: Considerando estos errores, ¿qué se te ocurre para mejorar el método?
+
+- Corregir encoding DBLP
+- Hacer análisis posterior checando solo titulo (darle menos peso a los autores),
+solo con los candidatos del primer procesamiento.
