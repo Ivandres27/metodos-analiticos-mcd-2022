@@ -112,12 +112,12 @@ como aproximación de *marg_tabla*, y compara con el tamaño de *marg_tabla*
 ```{r}
 X <- as.matrix(marg_tabla_esc)
 R <- X - X_1
-# aquí tu código
+Frobenius_R<-sum(diag(R%*%t(R)))
 ```
 Grafica los valores de la aproximación $X_1$ vs $X$
 
 ```{r}
-#aquí tu código
+qplot(as.numeric(X_1), as.numeric(as.matrix(X))) + geom_abline(colour='red')
 ```
 
 
