@@ -88,9 +88,15 @@ Extraemos las componentes de este objeto:
 u <- dvs_marg$u
 v <- dvs_marg$v
 sigma <- dvs_marg$d
+dim(u)
+dim(v)
+length(sigma)
+
 ```
 
 **Pregunta 1**: calcula la dimensión o tamaño de u, v y sigma. Explica de dónde salen estos valores.
+
+**La dimensión de cada uno está en función de la matriz "marg_tabla_esc" con las columnas de U vectores propios izquierdos y las columnas de V vectores propios derechos**
 
 Extrae la primera dimensión de esta descomposición:
 
@@ -112,7 +118,8 @@ como aproximación de *marg_tabla*, y compara con el tamaño de *marg_tabla*
 ```{r}
 X <- as.matrix(marg_tabla_esc)
 R <- X - X_1
-Frobenius_R<-sum(diag(R%*%t(R)))
+Frobenius_R<-norm(R,"F")
+dim(marg_tabla)
 ```
 Grafica los valores de la aproximación $X_1$ vs $X$
 
@@ -125,11 +132,17 @@ qplot(as.numeric(X_1), as.numeric(as.matrix(X))) + geom_abline(colour='red')
 **Pregunta 3**: En la descomposición que hiciste, ¿Qué usaría cómo medición de marginación por municipio,
 los scores de los municipios o los pesos de las variables?
 
+**Los pesos de las varaibles para ponderar cada uno al calcular el Indice**
+
 **Pregunta 4**: Explica cómo se construye tu medición de marginación en términos
 de la descomposición en valores singulares que obtuviste? ¿Cómo se ponderan las
 variables originales para construir tu medición de marginación?
 
+**En la aproximación con la matriz de rango 1 los valores de v_1 son los pesos que aproximan cada variable en la dirección de u_1, cada valor de v representa el peso de u_1 como aproximación de cada variable de marginación**
+
 **Pregunta 5**: ¿Puedes reconstruir el índice oficial a partir de la componente que obtuviste?
+
+**Si aproximando las variables con la matriz X_1 y calculando el Indice a partir de ellas **
 
 Una forma de graficar los scores junto con el peso de las variables es el *biplot*. Puedes
 hacerlo como sigue:
