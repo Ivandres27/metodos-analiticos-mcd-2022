@@ -56,10 +56,10 @@ Y lo que queremos hacer es predecir los valores faltantes de esta matriz, y sele
 
 |   |SWars1 |SWars4 |SWars5 |HPotter1 |HPotter2 |Twilight |
 |:--|:------|:------|:------|:--------|:--------|:--------|
-|a  |3      |5      |5      |2        |2.7      |3.4      |
-|b  |3      |4.4    |4      |1.4      |1.2      |1.6      |
-|c  |1.4    |1.1    |2.1    |5        |4        |4.4      |
-|d  |1      |4.6    |2      |2.9      |5        |4        |
+|a  |3      |5      |5      |2        |2.1      |3.3      |
+|b  |3      |4      |4      |2.5      |3.1      |1        |
+|c  |3.3    |1.8    |2.3    |5        |4        |5        |
+|d  |1      |2.4    |2      |3.5      |5        |4        |
 
 Podemos pensar en este problema como uno de **imputación de datos faltantes**. Las dificultades 
 particulares de este problema son:
@@ -198,14 +198,14 @@ dat_netflix <- read_csv( "../datos/netflix/dat_muestra_nflix.csv", progress = FA
 ```
 
 ```
-## Rows: 20968941 Columns: 5
+## Rows: 1048575 Columns: 5
 ```
 
 ```
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
-## dbl  (4): peli_id, usuario_id_orig, calif, usuario_id
-## date (1): fecha
+## chr (1): fecha
+## dbl (4): peli_id, usuario_id_orig, calif, usuario_id
 ```
 
 ```
@@ -221,13 +221,13 @@ head(dat_netflix)
 ```
 ## # A tibble: 6 × 4
 ##   peli_id calif fecha      usuario_id
-##     <dbl> <dbl> <date>          <int>
-## 1       1     3 2004-04-14          1
-## 2       1     3 2004-12-28          2
-## 3       1     4 2004-04-06          3
-## 4       1     4 2004-03-07          4
-## 5       1     4 2004-03-29          5
-## 6       1     2 2004-07-11          6
+##     <dbl> <dbl> <chr>           <int>
+## 1       1     3 14/04/2004          1
+## 2       1     3 28/12/2004          2
+## 3       1     4 06/04/2004          3
+## 4       1     4 07/03/2004          4
+## 5       1     4 29/03/2004          5
+## 6       1     2 11/07/2004          6
 ```
 
 ```r
@@ -236,9 +236,9 @@ dat_netflix |> tally()
 
 ```
 ## # A tibble: 1 × 1
-##          n
-##      <int>
-## 1 20968941
+##         n
+##     <int>
+## 1 1048575
 ```
 
 
@@ -264,8 +264,8 @@ arrange(medias_pelis, desc(media_peli)) |>
 ```
 
 ```{=html}
-<div id="htmlwidget-1dcf9ff028865a033444" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1dcf9ff028865a033444">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200"],[14791,8964,6522,4614,14961,7230,15538,7057,9864,3456,16875,1587,5018,4238,12398,13504,14550,13,2608,10464,1418,7833,2102,3033,5103,5582,11662,14240,2568,16587,15296,12834,2700,7664,15437,17307,10042,12293,16265,9063,11216,3444,2019,9436,17085,1499,8468,17219,8116,2598,1476,7569,1947,4427,12681,16302,15861,15104,13556,9628,14302,8535,11521,12891,2117,10640,7815,8447,12870,10080,2114,5760,7110,10644,12530,2452,1072,1915,14729,3962,16147,13665,7742,16711,3046,2162,17480,10643,4348,11641,3290,7751,2172,8226,9040,8038,3067,16006,10598,724,1357,5292,4294,14031,15557,6974,5738,13673,13205,5258,15609,4789,5092,2591,3965,2057,15500,4877,12755,7749,4353,14648,5530,15014,7539,1495,4098,2321,8355,1256,3247,9644,14621,5837,12731,9909,7445,16954,6007,3928,5161,9979,10011,10251,10973,12184,4691,7302,4306,710,3523,7430,7639,9483,14806,2803,2862,7396,2575,14537,12035,15768,8580,14615,2548,11026,13663,5714,8934,4978,16377,10947,12937,7193,11191,5519,11283,12107,13478,1020,11607,7695,7669,1409,12125,10778,11202,2782,8664,3593,10825,6428,14283,12219,11705,17157,10519,4207,11126,270],[4.88,4.83,4.76,4.75,4.72,4.71,4.7,4.69,4.68,4.68,4.67,4.65,4.63,4.62,4.62,4.6,4.6,4.59,4.59,4.58,4.57,4.56,4.56,4.56,4.55,4.55,4.55,4.54,4.54,4.53,4.52,4.52,4.51,4.51,4.51,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.49,4.49,4.48,4.48,4.48,4.48,4.48,4.48,4.47,4.47,4.47,4.47,4.47,4.46,4.46,4.46,4.46,4.46,4.46,4.46,4.46,4.46,4.45,4.45,4.45,4.45,4.45,4.45,4.45,4.45,4.44,4.43,4.43,4.43,4.43,4.42,4.42,4.42,4.42,4.42,4.41,4.41,4.41,4.41,4.41,4.41,4.4,4.4,4.4,4.4,4.4,4.39,4.39,4.39,4.38,4.38,4.38,4.38,4.38,4.38,4.38,4.37,4.37,4.37,4.37,4.37,4.37,4.37,4.36,4.36,4.36,4.36,4.36,4.36,4.36,4.36,4.36,4.35,4.35,4.35,4.35,4.35,4.35,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.33,4.33,4.33,4.33,4.33,4.33,4.33,4.33,4.33,4.33,4.33,4.33,4.33,4.32,4.32,4.32,4.32,4.31,4.31,4.31,4.31,4.31,4.31,4.31,4.31,4.31,4.31,4.31,4.31,4.31,4.31,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29],[17,6,29,4,15260,15191,329,15528,364,1502,6,34,146,371,245,345,29112,27,39,19,166,1327,1700,45,3564,19250,4242,27918,398,3835,7789,4475,47,2001,751,2477,24745,22253,17858,30,16,2111,443,86,4894,195,2655,1887,7219,21,2384,824,1003,1359,15,4840,2852,104,1801,18517,8414,3863,31611,3637,22,11,559,6437,21287,5197,2191,7937,1368,1058,5885,31146,84,373,656,29391,9062,43,3160,6934,3264,3576,1651,1793,97,502,14953,1703,4700,2138,31,1654,26,2280,3802,221,1364,2988,8,1950,1942,22561,2549,10638,679,1265,2358,1481,2381,36,381,1991,1309,2278,42,1478,2481,2239,1558,1313,182,3490,1371,61,137,2334,123,1500,26868,3821,890,3249,822,30052,3952,1503,12,9,12,48,39,6969,874,666,31436,49,1913,7104,470,62,1536,4158,26769,108,178,70,691,163,1915,32,1818,476,2876,331,13,1674,37800,27862,2216,18557,2788,2309,38071,10,10,4285,19330,2230,1524,1083,899,2242,136,28364,780,1053,379,13330,2165,48,151,27276,31,1485,1248,7504],[2003,2003,2001,1964,2003,2001,2004,2002,2004,2004,2005,1962,2001,2000,2004,2004,1994,2003,2003,1995,2002,2004,1994,2005,1993,1980,2004,2003,2004,1992,2001,2001,2005,2000,2002,2003,1981,1972,1977,2004,1991,2004,2004,2002,2002,2000,2002,1991,2002,2005,2004,2004,2002,2001,1996,1999,2001,1987,1999,1983,2000,1990,2002,2003,2004,1976,2003,2001,1993,2001,2002,2001,2004,2002,2004,2001,2000,2000,2004,2003,1999,2002,2003,2003,1990,2000,2003,1992,2002,1994,1974,1985,1991,2000,1999,1950,2004,1989,2004,1992,2003,2002,2004,2002,1999,1995,2003,1995,2004,1990,2001,2001,1997,2003,1992,2001,2001,2004,1995,2005,2002,2003,2000,2003,1991,2001,2002,2004,2005,1994,2005,2002,2001,1999,2001,2002,2004,1989,2003,2004,2005,1975,2005,2005,2005,2002,2002,2001,1999,1993,1992,2001,2004,1992,2001,1995,1991,1969,2004,1989,2002,2000,1999,2001,2000,2002,2000,1974,2003,2000,1999,2004,1999,1987,1999,1999,1994,2001,1973,1989,2005,1999,2004,2003,2001,2001,1999,1995,2001,1988,1993,1962,1994,2000,1997,1998,2003,1980,2000,2001],["Trailer Park Boys: Season 3","Trailer Park Boys: Season 4","Trailer Park Boys: Seasons 1 &amp; 2","Blood and Black Lace","Lord of the Rings: The Return of the King: Extended Edition","The Lord of the Rings: The Fellowship of the Ring: Extended Edition","Fullmetal Alchemist","Lord of the Rings: The Two Towers: Extended Edition","Battlestar Galactica: Season 1","Lost: Season 1","Ah! My Goddess","Harakiri","Fruits Basket","Inu-Yasha","Veronica Mars: Season 1","House M.D.: Season 1","The Shawshank Redemption: Special Edition","Lord of the Rings: The Return of the King: Extended Edition: Bonus Material","WWE: Mick Foley's Greatest Hits and Misses","Tenchi Muyo! Ryo Ohki","Inu-Yasha: The Movie 3: Swords of an Honorable Ruler","Arrested Development: Season 2","The Simpsons: Season 6","Ghost in the Shell: Stand Alone Complex: 2nd Gig","The Simpsons: Season 5","Star Wars: Episode V: The Empire Strikes Back","The Sopranos: Season 5","Lord of the Rings: The Return of the King","Stargate SG-1: Season 8","The Simpsons: Season 4","Band of Brothers","Family Guy: Vol. 2: Season 3","ECW: One Night Stand","Gladiator: Extended Edition","South Park: Season 6","CSI: Season 4","Raiders of the Lost Ark","The Godfather","Star Wars: Episode IV: A New Hope","Shura no Toki","Gundam 0083: Stardust Memory","Family Guy: Freakin' Sweet Collection","Samurai Champloo","Full Metal Panic FUMOFFU","24: Season 2","FLCL","CSI: Season 3","Seinfeld: Season 3","The Sopranos: Season 4","Baby Einstein: On the Go: Riding Sailing and Soaring","Six Feet Under: Season 4","Dead Like Me: Season 2","Gilmore Girls: Season 3","The West Wing: Season 3","Kodocha","Family Guy: Vol. 1: Seasons 1-2","CSI: Season 2","Anne of Green Gables: The Sequel","The West Wing: Season 2","Star Wars: Episode VI: Return of the Jedi","The Sopranos: Season 2","The Simpsons: Season 2","Lord of the Rings: The Two Towers","24: Season 3","Case Closed: Season 5","The Duchess of Duke Street: Series 1","Gilmore Girls: Season 4","24: Season 1","Schindler's List","Six Feet Under: Season 2","Firefly","The Sopranos: Season 3","The Shield: Season 3","The West Wing: Season 4","Sex and the City: Season 6: Part 2","Lord of the Rings: The Fellowship of the Ring","As Time Goes By: Series 8","Law &amp; Order: Special Victims Unit: The Second Year","Smallville: Season 4","Finding Nemo (Widescreen)","The Sopranos: Season 1","As Time Goes By: Series 9","Six Feet Under: Season 3","Sex and the City: Season 6: Part 1","The Simpsons: Treehouse of Horror","CSI: Season 1","The Shield: Season 2","Seinfeld: Season 4","The Twelve Kingdoms","My So-Called Life","The Godfather Part II","Anne of Green Gables","The Simpsons: Season 3","Buffy the Vampire Slayer: Season 5","The Sixth Sense: Bonus Material","Cinderella: Special Edition","Teen Titans: Season 2","Seinfeld: Seasons 1 &amp; 2","Chappelle's Show: Season 2","Yu Yu Hakusho","Stargate SG-1: Season 7","Alias: Season 2","Ghost Hunters: Season 1","Buffy the Vampire Slayer: Season 7","Futurama: Vol. 3","The Usual Suspects","Alias: Season 3","Toy Story","Rescue Me: Season 1","Ken Burns' Civil War","South Park: Season 5","Stargate SG-1: Season 5","Buffy the Vampire Slayer: Season 2","Maburaho","Red Dwarf: Series 5","Buffy the Vampire Slayer: Season 6","Gilmore Girls: Season 2","Simpsons Gone Wild","WWE: The Monday Night War","Curb Your Enthusiasm: Season 4","Curb Your Enthusiasm: Season 3","Finding Nemo (Full-screen)","Stargate SG-1: Season 4","Angel: Season 5","The Kids in the Hall: Season 3","Alias: Season 1","Angel: Season 4","Get Backers","UFC 52: Ultimate Fighting Championship: Randy Couture vs. Chuck Liddell","The Best of Friends: Vol. 4","The Looney Tunes Golden Collection: Vol. 3","Stargate SG-1: Season 6","Shrek (Full-screen)","Friends: Season 7","Farscape: Season 3","Friends: Season 9","Monk: Season 3","Indiana Jones and the Last Crusade","Arrested Development: Season 1","Nip/Tuck: Season 2","Pride FC: Body Blow","The Hiding Place","Lamb of God: Killadelphia","Samurai 7","WWE: Vengeance: Hell in a Cell","Sex and the City: Season 5","Farscape: Season 4","The Blue Planet: Seas of Life: Seasonal Seas - Coral Seas","The Sixth Sense","Inspector Morse 9: The Last Enemy","Star Trek: The Next Generation: Season 6","Six Feet Under: Season 1","Star Wars Trilogy: Bonus Material","Inspector Morse 8: Ghost in the Machine","Angel: Season 3","Pride and Prejudice","The Silence of the Lambs","The Twilight Zone: Vol. 43","R.O.D. the TV Series","Garfield and Friends: Vol. 3","Oz: Season 5","The Simpsons: Christmas 2","Futurama: Vol. 4","Abraham and Mary Lincoln: A House Divided: American Experience","Gilmore Girls: Season 1","Inu-Yasha: The Movie 2: The Castle Beyond the Looking Glass","South Park: Season 4","Upstairs Downstairs: Season 4","Johnny Cash: Hurt: A Film by Mark Romanek","Freaks &amp; Geeks: The Complete Series","The Green Mile","The Incredibles","Buffy the Vampire Slayer: Season 4","The Princess Bride","South Park: Season 3","The West Wing: Season 1","Forrest Gump","The Merchants of Cool: Frontline","Ivan Vasilievich: Back to the Future","The Simpsons: Season 1","Hotel Rwanda","Futurama: Vol. 2","Desperate Housewives: Season 1","The O.C.: Season 1","The Blue Planet: Seas of Life: Open Ocean - The Deep","Scrubs: Season 1","Initial D","Braveheart","The Blue Planet: Seas of Life: Ocean World - Frozen Seas","My Neighbor Totoro","Red Dwarf: Series 6","To Kill a Mockingbird","The Best of Friends: Vol. 3","Dragon Ball Z: Vegeta Saga 1","VeggieTales: A Snoodles Tale","Saving Private Ryan","The Howlin' Wolf Story","The Blues Brothers: Extended Cut","Oz: Season 4","Sex and the City: Season 4"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>peli_id<\/th>\n      <th>media_peli<\/th>\n      <th>num_calif_peli<\/th>\n      <th>año<\/th>\n      <th>nombre<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9d7e9b86e4755c7cb13f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9d7e9b86e4755c7cb13f">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200"],[13,724,710,270,316,325,774,712,752,244,85,935,560,359,223,839,476,872,908,886,663,451,68,241,1006,577,722,209,33,634,76,595,822,933,825,345,167,430,32,417,463,253,106,471,215,251,799,473,996,889,907,37,498,762,575,943,175,657,494,504,555,699,805,421,871,443,462,520,25,91,880,952,395,621,242,98,206,579,690,753,778,432,571,837,561,159,703,895,454,152,992,240,619,861,135,191,165,5,371,292,645,900,442,780,410,824,709,257,138,804,263,113,760,798,479,585,199,576,397,668,477,963,519,88,229,851,441,899,97,865,457,939,587,918,730,143,720,161,539,893,180,673,982,46,734,419,455,501,616,1008,221,840,400,646,777,103,409,384,342,642,239,901,79,304,28,1,333,436,971,518,487,617,857,660,764,482,339,789,73,609,268,958,224,94,269,62,406,18,52,747,516,30,990,71,891,788,350,281,682,832],[4.59,4.38,4.33,4.29,4.28,4.28,4.28,4.27,4.26,4.25,4.23,4.21,4.21,4.21,4.21,4.2,4.2,4.2,4.19,4.19,4.19,4.18,4.17,4.17,4.17,4.17,4.15,4.14,4.13,4.13,4.12,4.11,4.1,4.1,4.09,4.09,4.08,4.08,4.08,4.08,4.07,4.07,4.07,4.06,4.05,4.04,4.03,4.03,4.03,4.03,4.02,4.02,4.02,4.02,4.02,4.01,4.01,4,4,4,4,4,4,3.99,3.98,3.98,3.98,3.98,3.98,3.97,3.97,3.97,3.97,3.97,3.97,3.97,3.97,3.97,3.97,3.97,3.97,3.96,3.96,3.96,3.96,3.96,3.96,3.96,3.95,3.95,3.94,3.94,3.94,3.94,3.94,3.93,3.93,3.93,3.93,3.93,3.93,3.93,3.92,3.92,3.92,3.91,3.91,3.91,3.91,3.91,3.9,3.9,3.9,3.9,3.9,3.9,3.9,3.89,3.89,3.89,3.89,3.89,3.89,3.88,3.88,3.88,3.88,3.88,3.87,3.87,3.86,3.86,3.86,3.85,3.85,3.85,3.85,3.85,3.84,3.84,3.84,3.83,3.83,3.83,3.83,3.82,3.82,3.82,3.82,3.82,3.82,3.82,3.82,3.81,3.81,3.81,3.81,3.81,3.81,3.81,3.81,3.81,3.8,3.8,3.8,3.8,3.8,3.8,3.8,3.79,3.79,3.79,3.79,3.79,3.79,3.79,3.79,3.79,3.78,3.78,3.78,3.78,3.78,3.78,3.78,3.78,3.77,3.77,3.77,3.77,3.77,3.76,3.76,3.76,3.76,3.76,3.76,3.76,3.75,3.75],[27,221,49,7504,517,244,514,198,1785,24,60,154,337,973,4960,205,421,6498,2325,22639,162,243,454,8964,181,447,1216,901,1388,341,561,323,769,63,1201,845,1918,333,404,303,485,1052,196,955,1179,249,219,4957,2405,596,1058,53,60,490,460,361,18912,421,5783,509,210,72,65,187,310,7626,174,41,241,116,347,523,409,1760,456,32,254,460,183,29,29,562,32172,275,528,25,47,532,363,1876,1323,1064,63,125,78,20577,957,223,442,114,1872,2320,5306,75,209,210,69,5675,1222,131,197,288,1939,17062,350,408,7452,138,162,1345,471,7862,71,208,138,5261,80,32,2373,52,24340,29,119,1563,932,7998,5574,130,31,191,523,259,346,1369,1348,130,174,3255,28,207,39,741,774,836,137,42,94,318,276,255,443,139,693,746,8273,105,85,723,704,468,68,174,307,4368,123,11775,117,6626,130,134,1153,68,231,86,4422,58,10249,2203,1075,26,4266,24683,625,303,58,12119,246,674,1013,753],[2003,1992,1993,2001,1999,2004,2003,1998,1993,2004,2005,2003,2003,2003,2003,1945,2004,1954,1981,2004,1999,1993,2004,1959,1996,1961,2003,1996,2000,1989,1952,2001,2001,2005,1983,1998,2004,2002,2004,1986,1962,1935,2004,1931,1998,2000,2003,1997,1961,2004,1930,1973,1989,2004,1994,2004,1992,1996,1983,1964,1996,2004,1968,2003,1984,2002,2005,2004,1997,2005,1994,1940,1935,1997,1995,1965,2004,1973,2004,1964,2003,1996,1999,1972,1963,1971,2004,1975,1995,1995,1972,1942,1980,2003,1998,2003,1982,2004,1966,2005,2004,1994,1988,2003,1998,1977,1998,1973,1995,1944,2001,2000,2005,1975,1988,1995,1978,2000,1946,2004,1990,1951,1979,1998,2003,1990,1968,2003,2002,2005,2004,2003,1983,1964,1988,1997,1989,1939,1987,2003,2002,1999,2001,1964,1992,2005,1999,1975,1983,1996,2005,1941,1970,1987,1944,1976,1966,1986,2001,1990,2004,1950,1956,1997,2002,2003,2003,1985,2002,1969,1968,2004,1963,2000,1983,2002,1968,1991,1954,2002,1980,2003,1999,2000,1989,1991,2005,1994,2002,1996,2001,2003,1941,1995,2003,1994,1993,1993,1998,2003],["Lord of the Rings: The Return of the King: Extended Edition: Bonus Material","Yu Yu Hakusho","Inspector Morse 9: The Last Enemy","Sex and the City: Season 4","Futurama: Monster Robot Maniac Fun Collection","Ghosts of Rwanda: Frontline","Foyle's War: Set 2","Homicide: Life on the Street: Season 7","Star Trek: The Next Generation: Season 7","Stellvia","Elfen Lied","Read Or Die","Star Trek: Enterprise: Season 3","Absolutely Fabulous: Series 5","Chappelle's Show: Season 1","The Thin Man Goes Home","VeggieTales Classics: Where's God When I'm Scared?","Seven Samurai","Sense and Sensibility","Ray","La Femme Nikita: Season 3","Batman the Animated Series: Vol. 3","Invader Zim","North by Northwest","Inspector Morse 30: The Daughters of Cain","The Twilight Zone: Vol. 36","The Wire: Season 1","Star Trek: Deep Space Nine: Season 5","Aqua Teen Hunger Force: Vol. 1","Christmas with The Simpsons","I Love Lucy: Season 2","Monarch of the Glen: Series 2","Star Trek: Enterprise: Season 1","Backyardigans: It's Great to Be a Ghost","Bill Cosby: Himself","Star Trek: Voyager: Season 5","The Chorus","Chobits","ABC Primetime: Mel Gibson's The Passion of the Christ","Transformers: Season 3: Part 1","The Twilight Zone: Vol. 12","A Night at the Opera","Stevie Ray Vaughan and Double Trouble: Live at Montreux 1982 &amp; 1985","City Lights","That '70s Show: Season 1","Midsomer Murders: Strangler's Wood","Teen Titans: Season 1","Princess Mononoke","Yojimbo","Reno 911: Season 2","Animal Crackers","Zatoichi's Conspiracy","Glory: Bonus Material","End of the Century: The Story of the Ramones","Highlander: Season 4","Dave Chappelle: For What It's Worth","Reservoir Dogs","Highlander: Season 5","Monty Python's The Meaning of Life: Special Edition","The Twilight Zone: Vol. 27","Cadfael: A Morbid Taste for Bones","Mahoromatic: Automatic Maiden: Summer Special","Dark Shadows: Vol. 11","Agatha Christie's Poirot: Sad Cypress","The Jewel in the Crown","Rabbit-Proof Fence","Classic Cartoon Favorites: Starring Donald","E's Otherwise","Inspector Morse 31: Death Is Now My Neighbour","WWE: Royal Rumble 2005","Sharpe 4: Sharpe's Enemy","My Favorite Wife","Captain Blood","Armageddon","Neon Genesis Evangelion: The End of Evangelion","The Battle of Algiers: Bonus Material","Unconstitutional: The War on Our Civil Liberties","The Autobiography of Miss Jane Pittman","Baby Einstein: Baby Da Vinci","Mary Poppins: Bonus Material","A Touch of Frost: Seasons 7 &amp; 8","Les Miserables in Concert","American Beauty","All in the Family: Season 3","High and Low","Gentlemen of Fortune","Japan: Memoirs of a Secret Empire","Dersu Uzala","Xena: Warrior Princess: Season 3","A Little Princess","The Cowboys","Woman of the Year","Doctor Who: The Leisure Hive","Rush: Rush in Rio","GTO: Great Teacher Onizuka: Set 2","X2: X-Men United","Richard Pryor: Live on the Sunset Strip","The Rise and Fall of ECW","The Trouble with Angels","Saturday Night Live: The Best of Gilda Radner","Dear Frankie","Eat Drink Man Woman","Mississippi Burning","Churchill","Frank Lloyd Wright","A Piece of the Action","Africans in America: America's Journey Through Slavery","Charlotte's Web","Star Trek: Voyager: Season 1","Sherlock Holmes: The Scarlet Claw","Dragon Ball: Tournament Saga","Bruce Lee: A Warrior's Journey","Pooh's Heffalump Movie","Jaws","George Carlin: What Am I Doing in New Jersey?","My Family","The Deer Hunter","Popular: Season 2","A Night in Casablanca","Saturday Night Live: The Best of Will Ferrell 2","George Carlin: Personal Favorites","A Streetcar Named Desire","From Mao to Mozart: Isaac Stern in China","Record of Lodoss War: Chronicles of the Heroic Knight","Peter Gabriel: Growing Up Live","Back to the Future Part III","Dark Shadows: Vol. 9","Out of Ireland: The Hit Songs and Artists of Irish Music","Mostly Martha","Elvis by the Presleys","Kill Bill: Vol. 2","Midsomer Murders: A Tale of Two Hamlets","The Scarlet and the Black","A Hard Day's Night: Collector's Series","Bagdad Cafe","The Game","Roger &amp; Me","Ninotchka","Rumpole of the Bailey: Series 4","Blue's Clues: Classic Clues","Scratch","Fight Club: Bonus Material","Dil Chahta Hai","Rudolph the Red-Nosed Reindeer","Indochine","George Lopez: Why You Crying?","Cardcaptor Sakura: The Movie","Three Days of the Condor","SCTV Network 90: Vol. 4","Ken Burns' The West","Voyage to the Planets and Beyond","The Lady Eve","Rio Lobo","Matewan","Sherlock Holmes and the Spider Woman","Sanford and Son: Season 6","Godzilla vs. The Sea Monster","Crossroads","Noir","Mystery Science Theater 3000: The Hellcats","Winnie the Pooh: Springtime with Roo","Diary of a Country Priest","The Killing","King of the Hill: Season 1","Lilo and Stitch","Dinosaur Planet","Mail Call: The Best of Season 2","Girls Just Want to Have Fun","Unprecedented: The 2000 Presidential Election","The Prime of Miss Jean Brodie","Doctor Who: Lost in Time: The Patrick Troughton Years","UFC: Ultimate Fighting Championship: Ultimate Knockouts 3","The Three Stooges Go Around the World in a Daze","Saving Grace","Scarface: 20th Anniversary Edition: Bonus Material","Frida","Rolling Stones: Rock and Roll Circus","Boyz N the Hood","Davy Crockett: 50th Anniversary Double Feature","Jimmy Neutron: Attack of the Twonkies","The Final Countdown","World Cup Soccer Highlights: 1966-1974","Midsomer Murders: Blood Will Out","G3: Live in Concert","Parenthood","Ken Burns' America: Empire of the Air","Hostage","Immortal Beloved","The Weather Underground","Saber Marionette J","Monsoon Wedding","Something's Gotta Give","Meet John Doe","Maya Lin: A Strong Clear Vision","Zakk Wylde's Black Label Society: Boozed Broozed &amp; Broken-Boned","Clerks","Dr. Quinn Medicine Woman: Season 3","The Legend","The Mighty","Tupac: Resurrection"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>peli_id<\/th>\n      <th>media_peli<\/th>\n      <th>num_calif_peli<\/th>\n      <th>año<\/th>\n      <th>nombre<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 Nótese que varias de las películas con mejor promedio tienen muy pocas evaluaciones. Podemos
@@ -299,8 +299,8 @@ arrange(medias_pelis, desc(media_peli)) |>
 ```
 
 ```{=html}
-<div id="htmlwidget-23fe463a3ce0d86f902e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-23fe463a3ce0d86f902e">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200"],[14961,7230,7057,3456,14550,7833,2102,5103,5582,11662,14240,16587,15296,12834,7664,15437,17307,10042,12293,16265,3444,17085,8468,17219,8116,1476,7569,1947,4427,16302,15861,13556,9628,14302,8535,11521,12891,7815,8447,12870,10080,2114,5760,7110,10644,12530,2452,14729,3962,16147,7742,16711,3046,2162,17480,10643,11641,3290,7751,2172,8226,8038,16006,10598,1357,5292,14031,15557,6974,5738,13673,13205,5258,15609,4789,5092,2057,15500,4877,7749,4353,14648,5530,15014,1495,4098,1256,9644,14621,5837,12731,9909,7445,16954,6007,3928,12184,4691,7302,4306,3523,7430,14806,2803,2862,12035,8580,2548,13663,4978,16377,10947,12937,7193,11191,5519,11283,1020,11607,7695,7669,1409,12125,10778,2782,8664,3593,6428,14283,17157,4207,11126,270,5326,5732,4115,14911,1441,4383,316,5549,11089,7605,7393,17682,7303,2942,774,16022,3958,15777,10072,13669,17165,15773,17687,10061,8327,752,14533,11925,2566,15333,11050,15836,12384,2861,7158,12811,2040,16615,2195,7735,10418,12999,6355,1795,5297,6739,13123,3864,12100,11164,8438,14571,12956,13468,5886,14709,15183,9326,16394,6142,14742,14691,15534,16278,7235,7683,12026],[4.72,4.71,4.69,4.68,4.6,4.56,4.56,4.55,4.55,4.55,4.54,4.53,4.52,4.52,4.51,4.51,4.5,4.5,4.5,4.5,4.5,4.48,4.48,4.48,4.48,4.47,4.47,4.47,4.47,4.46,4.46,4.46,4.46,4.46,4.46,4.46,4.46,4.45,4.45,4.45,4.45,4.45,4.45,4.44,4.43,4.43,4.43,4.42,4.42,4.42,4.41,4.41,4.41,4.41,4.41,4.41,4.4,4.4,4.4,4.4,4.39,4.39,4.38,4.38,4.38,4.38,4.37,4.37,4.37,4.37,4.37,4.37,4.37,4.36,4.36,4.36,4.36,4.36,4.36,4.35,4.35,4.35,4.35,4.35,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.34,4.33,4.33,4.33,4.33,4.33,4.33,4.32,4.32,4.32,4.31,4.31,4.31,4.31,4.31,4.31,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.29,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.28,4.27,4.27,4.27,4.27,4.27,4.27,4.26,4.26,4.26,4.26,4.26,4.26,4.26,4.26,4.26,4.26,4.26,4.25,4.25,4.25,4.25,4.25,4.24,4.24,4.24,4.24,4.24,4.24,4.24,4.24,4.24,4.23,4.23,4.23,4.23,4.23,4.23,4.23,4.23,4.23,4.22,4.22,4.22,4.22,4.22,4.22,4.21,4.21,4.21],[15260,15191,15528,1502,29112,1327,1700,3564,19250,4242,27918,3835,7789,4475,2001,751,2477,24745,22253,17858,2111,4894,2655,1887,7219,2384,824,1003,1359,4840,2852,1801,18517,8414,3863,31611,3637,559,6437,21287,5197,2191,7937,1368,1058,5885,31146,656,29391,9062,3160,6934,3264,3576,1651,1793,502,14953,1703,4700,2138,1654,2280,3802,1364,2988,1950,1942,22561,2549,10638,679,1265,2358,1481,2381,1991,1309,2278,1478,2481,2239,1558,1313,3490,1371,2334,1500,26868,3821,890,3249,822,30052,3952,1503,6969,874,666,31436,1913,7104,1536,4158,26769,691,1915,1818,2876,1674,37800,27862,2216,18557,2788,2309,38071,4285,19330,2230,1524,1083,899,2242,28364,780,1053,13330,2165,27276,1485,1248,7504,1802,18898,873,2006,1603,837,517,2970,27089,1191,535,2447,1017,3975,514,1338,1144,3726,612,572,1428,998,1500,1370,18232,1785,3933,1020,1611,774,1091,900,1206,710,3792,2490,1878,625,856,559,3328,2389,1686,1076,1239,12076,1183,11547,598,8148,4386,930,1775,664,1830,1712,1278,1533,508,1101,2131,29401,548,2570,1180,4049,571],[2003,2001,2002,2004,1994,2004,1994,1993,1980,2004,2003,1992,2001,2001,2000,2002,2003,1981,1972,1977,2004,2002,2002,1991,2002,2004,2004,2002,2001,1999,2001,1999,1983,2000,1990,2002,2003,2003,2001,1993,2001,2002,2001,2004,2002,2004,2001,2004,2003,1999,2003,2003,1990,2000,2003,1992,1994,1974,1985,1991,2000,1950,1989,2004,2003,2002,2002,1999,1995,2003,1995,2004,1990,2001,2001,1997,2001,2001,2004,2005,2002,2003,2000,2003,2001,2002,1994,2002,2001,1999,2001,2002,2004,1989,2003,2004,2002,2002,2001,1999,1992,2001,2001,1995,1991,2002,1999,2000,2000,2000,1999,2004,1999,1987,1999,1999,1994,1989,2005,1999,2004,2003,2001,2001,1995,2001,1988,1962,1994,1998,1980,2000,2001,1990,1990,1999,2002,1998,2004,1999,2001,2001,2004,1993,1998,2002,1999,2003,2003,2003,2001,2004,1988,2004,2003,1997,2003,1975,1993,2002,2003,1999,1999,1977,1979,2001,1996,1997,2000,1991,2001,2004,1997,1997,2003,2002,1978,2000,1954,1976,2005,1992,2000,1998,1999,2000,1992,2000,1988,1975,2003,1995,2003,2000,1999,2001,2004,2003,1988,1996],["Lord of the Rings: The Return of the King: Extended Edition","The Lord of the Rings: The Fellowship of the Ring: Extended Edition","Lord of the Rings: The Two Towers: Extended Edition","Lost: Season 1","The Shawshank Redemption: Special Edition","Arrested Development: Season 2","The Simpsons: Season 6","The Simpsons: Season 5","Star Wars: Episode V: The Empire Strikes Back","The Sopranos: Season 5","Lord of the Rings: The Return of the King","The Simpsons: Season 4","Band of Brothers","Family Guy: Vol. 2: Season 3","Gladiator: Extended Edition","South Park: Season 6","CSI: Season 4","Raiders of the Lost Ark","The Godfather","Star Wars: Episode IV: A New Hope","Family Guy: Freakin' Sweet Collection","24: Season 2","CSI: Season 3","Seinfeld: Season 3","The Sopranos: Season 4","Six Feet Under: Season 4","Dead Like Me: Season 2","Gilmore Girls: Season 3","The West Wing: Season 3","Family Guy: Vol. 1: Seasons 1-2","CSI: Season 2","The West Wing: Season 2","Star Wars: Episode VI: Return of the Jedi","The Sopranos: Season 2","The Simpsons: Season 2","Lord of the Rings: The Two Towers","24: Season 3","Gilmore Girls: Season 4","24: Season 1","Schindler's List","Six Feet Under: Season 2","Firefly","The Sopranos: Season 3","The Shield: Season 3","The West Wing: Season 4","Sex and the City: Season 6: Part 2","Lord of the Rings: The Fellowship of the Ring","Smallville: Season 4","Finding Nemo (Widescreen)","The Sopranos: Season 1","Six Feet Under: Season 3","Sex and the City: Season 6: Part 1","The Simpsons: Treehouse of Horror","CSI: Season 1","The Shield: Season 2","Seinfeld: Season 4","My So-Called Life","The Godfather Part II","Anne of Green Gables","The Simpsons: Season 3","Buffy the Vampire Slayer: Season 5","Cinderella: Special Edition","Seinfeld: Seasons 1 &amp; 2","Chappelle's Show: Season 2","Stargate SG-1: Season 7","Alias: Season 2","Buffy the Vampire Slayer: Season 7","Futurama: Vol. 3","The Usual Suspects","Alias: Season 3","Toy Story","Rescue Me: Season 1","Ken Burns' Civil War","South Park: Season 5","Stargate SG-1: Season 5","Buffy the Vampire Slayer: Season 2","Buffy the Vampire Slayer: Season 6","Gilmore Girls: Season 2","Simpsons Gone Wild","Curb Your Enthusiasm: Season 4","Curb Your Enthusiasm: Season 3","Finding Nemo (Full-screen)","Stargate SG-1: Season 4","Angel: Season 5","Alias: Season 1","Angel: Season 4","The Best of Friends: Vol. 4","Stargate SG-1: Season 6","Shrek (Full-screen)","Friends: Season 7","Farscape: Season 3","Friends: Season 9","Monk: Season 3","Indiana Jones and the Last Crusade","Arrested Development: Season 1","Nip/Tuck: Season 2","Sex and the City: Season 5","Farscape: Season 4","The Blue Planet: Seas of Life: Seasonal Seas - Coral Seas","The Sixth Sense","Star Trek: The Next Generation: Season 6","Six Feet Under: Season 1","Angel: Season 3","Pride and Prejudice","The Silence of the Lambs","Oz: Season 5","Futurama: Vol. 4","Gilmore Girls: Season 1","South Park: Season 4","Freaks &amp; Geeks: The Complete Series","The Green Mile","The Incredibles","Buffy the Vampire Slayer: Season 4","The Princess Bride","South Park: Season 3","The West Wing: Season 1","Forrest Gump","The Simpsons: Season 1","Hotel Rwanda","Futurama: Vol. 2","Desperate Housewives: Season 1","The O.C.: Season 1","The Blue Planet: Seas of Life: Open Ocean - The Deep","Scrubs: Season 1","Braveheart","The Blue Planet: Seas of Life: Ocean World - Frozen Seas","My Neighbor Totoro","To Kill a Mockingbird","The Best of Friends: Vol. 3","Saving Private Ryan","The Blues Brothers: Extended Cut","Oz: Season 4","Sex and the City: Season 4","Star Trek: The Next Generation: Season 4","GoodFellas: Special Edition","The Simpsons: Bart Wars","The Shield: Season 1","Stargate SG-1: Season 2","Farscape: The Peacekeeper Wars","Futurama: Monster Robot Maniac Fun Collection","Curb Your Enthusiasm: Season 2","Monsters Inc.","Queer as Folk: Season 4","Prime Suspect 3","Buffy the Vampire Slayer: Season 3","Coupling: Season 3","Friends: Season 6","Foyle's War: Set 2","Battlestar Galactica: The Miniseries","Monk: Season 2","Friends: Season 8","Prime Suspect 6","Red Dwarf: Series 4","The Daily Show with Jon Stewart: Indecision 2004","Aqua Teen Hunger Force: Vol. 3","Oz: Season 3","Smallville: Season 3","One Flew Over the Cuckoo's Nest","Star Trek: The Next Generation: Season 7","The Office: Series 2","The Wire: Season 2","Stargate SG-1: Season 3","Samurai X: Trust and Betrayal Director's Cut","MASH: Season 6","MASH: Season 8","Coupling: Season 2","Babylon 5: Season 4","The Best of Friends: Season 4","The X-Files: Season 1","Star Trek: The Next Generation: Season 5","Shrek (Widescreen)","The Looney Tunes Golden Collection: Vol. 2","Rurouni Kenshin","South Park: Season 1","Nip/Tuck: Season 1","Smallville: Season 2","MASH: Season 7","Aqua Teen Hunger Force: Vol. 2","Rear Window","MASH: Season 5","Batman Begins","Prime Suspect 2","Sex and the City: Season 3","Friends: Season 5","Toy Story 2","Angel: Season 2","Law &amp; Order: Season 3","The X-Files: Season 3","Star Trek: The Next Generation: Season 2","MASH: Season 4","Queer as Folk: Season 3","Prime Suspect 4","Law &amp; Order: Special Victims Unit: The Fifth Year","The X-Files: Season 2","The Matrix","Inu-Yasha: The Movie: Affections Touching Across Time","Something the Lord Made","Carnivale: Season 1","Cinema Paradiso: Director's Cut","ER: Season 3"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>peli_id<\/th>\n      <th>media_peli<\/th>\n      <th>num_calif_peli<\/th>\n      <th>año<\/th>\n      <th>nombre<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1d1cebbe5975705c9758" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1d1cebbe5975705c9758">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200"],[270,316,774,752,359,223,872,908,886,241,722,209,33,76,822,825,345,167,253,471,215,473,996,889,907,175,494,504,443,952,621,432,571,561,895,152,992,240,191,165,645,900,442,257,138,760,798,199,668,963,851,97,457,918,730,143,720,180,46,734,501,840,400,646,79,304,28,436,971,660,482,789,268,269,406,18,52,516,30,990,788,281,682,832,748,48,486,677,405,937,420,83,283,425,843,171,312,262,104,299,133,313,964,456,940,344,44,631,57,705,361,807,985,725,488,385,58,658,275,662,331,248,711,638,401,290,700,305,329,883,629,166,445,311,358,334,607,433,809,424,817,961,474,833,670,489,746,468,431,357,986,758,692,681,636,615,763,862,599,197,535,563,569,459,517,330,156,483,213,859,818,256,896,550,118,696,381,348,413,689,733,674,201,953,252,408,708,422,189,273,285,393,652,148,295,1001,954,551,524,554],[4.29,4.28,4.28,4.26,4.21,4.21,4.2,4.19,4.19,4.17,4.15,4.14,4.13,4.12,4.1,4.09,4.09,4.08,4.07,4.06,4.05,4.03,4.03,4.03,4.02,4.01,4,4,3.98,3.97,3.97,3.96,3.96,3.96,3.96,3.95,3.94,3.94,3.93,3.93,3.93,3.93,3.92,3.91,3.91,3.9,3.9,3.9,3.89,3.89,3.88,3.87,3.86,3.85,3.85,3.85,3.85,3.84,3.83,3.83,3.82,3.82,3.82,3.81,3.8,3.8,3.8,3.8,3.8,3.79,3.79,3.79,3.78,3.78,3.77,3.77,3.77,3.77,3.76,3.76,3.76,3.76,3.75,3.75,3.75,3.74,3.74,3.74,3.74,3.73,3.73,3.72,3.72,3.72,3.71,3.71,3.71,3.71,3.71,3.7,3.7,3.7,3.7,3.7,3.69,3.68,3.67,3.67,3.64,3.64,3.63,3.63,3.63,3.63,3.63,3.63,3.63,3.63,3.62,3.61,3.61,3.61,3.61,3.61,3.6,3.59,3.59,3.59,3.59,3.59,3.58,3.58,3.57,3.57,3.56,3.56,3.56,3.55,3.55,3.55,3.54,3.54,3.54,3.53,3.53,3.52,3.52,3.52,3.52,3.51,3.51,3.51,3.51,3.51,3.51,3.5,3.49,3.49,3.49,3.49,3.49,3.48,3.47,3.47,3.47,3.46,3.46,3.46,3.46,3.46,3.46,3.45,3.45,3.45,3.43,3.43,3.42,3.42,3.41,3.41,3.41,3.41,3.41,3.41,3.4,3.4,3.39,3.39,3.38,3.37,3.33,3.32,3.32,3.32,3.31,3.28,3.28,3.28,3.27,3.27],[7504,517,514,1785,973,4960,6498,2325,22639,8964,1216,901,1388,561,769,1201,845,1918,1052,955,1179,4957,2405,596,1058,18912,5783,509,7626,523,1760,562,32172,528,532,1876,1323,1064,20577,957,1872,2320,5306,5675,1222,1939,17062,7452,1345,7862,5261,2373,24340,1563,932,7998,5574,523,1369,1348,3255,741,774,836,693,746,8273,723,704,4368,11775,6626,1153,4422,10249,2203,1075,4266,24683,625,12119,674,1013,753,771,739,819,1330,1442,5033,910,3978,1335,971,2385,1285,13633,939,758,16171,505,20825,605,519,3752,553,1786,1736,763,8075,7437,639,18801,1065,635,1972,3713,9156,2225,2431,9853,1233,3177,873,657,9868,952,2734,13693,933,2578,1979,1622,5214,610,8347,20978,2117,839,2929,1070,524,671,1775,1601,1032,5023,12620,696,16118,707,21738,6912,894,2881,2940,2571,4068,2098,16949,1307,2242,886,1559,1424,5675,1724,18872,766,2342,3056,2589,6390,6975,3980,1519,1429,2639,6082,1853,542,1553,603,1464,5175,571,15047,1139,2996,6619,2945,2470,1095,4760,6032,1305,1682,3065,1297,1235],[2001,1999,2003,1993,2003,2003,1954,1981,2004,1959,2003,1996,2000,1952,2001,1983,1998,2004,1935,1931,1998,1997,1961,2004,1930,1992,1983,1964,2002,1940,1997,1996,1999,1963,1975,1995,1972,1942,2003,1982,2004,1994,1988,1973,1995,2005,1975,1978,2004,1951,1990,2002,2004,1964,1988,1997,1989,2002,1964,1992,1975,1941,1970,1987,1956,1997,2002,1985,2002,2000,2002,1991,1980,1989,2005,1994,2002,2001,2003,1941,1994,1993,1998,2003,2002,2001,1959,2001,1987,1998,1999,1983,1996,2000,1999,1957,2000,1974,1965,2001,2003,2000,2001,1996,1997,1967,1996,2005,1995,1989,2004,1959,1999,2004,2001,2002,1996,1991,2002,1995,1997,2001,1994,1985,1989,2004,1997,1996,1999,1992,1984,1980,1996,1994,1979,2005,1994,1993,2002,1998,1980,1957,1998,1996,2002,1998,2001,2003,2002,2003,2002,2004,1992,1986,1980,1999,1972,2002,1989,2004,1960,2001,1979,1996,2001,1998,1992,2001,2001,1982,1976,2000,1995,1995,1985,1996,1991,1988,2002,1998,1988,1988,2001,1966,2002,1990,2000,1964,1982,2004,1997,1998,1996,2001,1995,2001,2003,1994,1999,1972],["Sex and the City: Season 4","Futurama: Monster Robot Maniac Fun Collection","Foyle's War: Set 2","Star Trek: The Next Generation: Season 7","Absolutely Fabulous: Series 5","Chappelle's Show: Season 1","Seven Samurai","Sense and Sensibility","Ray","North by Northwest","The Wire: Season 1","Star Trek: Deep Space Nine: Season 5","Aqua Teen Hunger Force: Vol. 1","I Love Lucy: Season 2","Star Trek: Enterprise: Season 1","Bill Cosby: Himself","Star Trek: Voyager: Season 5","The Chorus","A Night at the Opera","City Lights","That '70s Show: Season 1","Princess Mononoke","Yojimbo","Reno 911: Season 2","Animal Crackers","Reservoir Dogs","Monty Python's The Meaning of Life: Special Edition","The Twilight Zone: Vol. 27","Rabbit-Proof Fence","My Favorite Wife","Armageddon","Les Miserables in Concert","American Beauty","High and Low","Dersu Uzala","A Little Princess","The Cowboys","Woman of the Year","X2: X-Men United","Richard Pryor: Live on the Sunset Strip","Dear Frankie","Eat Drink Man Woman","Mississippi Burning","Charlotte's Web","Star Trek: Voyager: Season 1","Pooh's Heffalump Movie","Jaws","The Deer Hunter","Saturday Night Live: The Best of Will Ferrell 2","A Streetcar Named Desire","Back to the Future Part III","Mostly Martha","Kill Bill: Vol. 2","A Hard Day's Night: Collector's Series","Bagdad Cafe","The Game","Roger &amp; Me","Scratch","Rudolph the Red-Nosed Reindeer","Indochine","Three Days of the Condor","The Lady Eve","Rio Lobo","Matewan","The Killing","King of the Hill: Season 1","Lilo and Stitch","Girls Just Want to Have Fun","Unprecedented: The 2000 Presidential Election","Saving Grace","Frida","Boyz N the Hood","The Final Countdown","Parenthood","Hostage","Immortal Beloved","The Weather Underground","Monsoon Wedding","Something's Gotta Give","Meet John Doe","Clerks","The Legend","The Mighty","Tupac: Resurrection","I Can Do Bad All By Myself","Justice League","Journey to the Center of the Earth","In the Mood for Love","Wings of Desire","Fallen","Saturday Night Live: The Best of Dana Carvey","Silkwood","If These Walls Could Talk","The 10th Kingdom","Mansfield Park","Funny Face","High Fidelity","Herbie Rides Again","The Great Race","Bridget Jones's Diary","Viva La Bam: Season 1","Pay It Forward","The Tick: The Entire Series","Emma (Miniseries)","Hercules","The Taming of the Shrew","Spitfire Grill","Unleashed","Richard III","Major League","The Phantom of the Opera: Special Edition","The Mouse That Roared","The Mummy","Woman Thou Art Loosed","His Secret Life","The Santa Clause 2","Dragonheart","Robin Hood: Prince of Thieves","Evelyn","Rob Roy","Chasing Amy","Michael Moore's The Awful Truth: Season 2","Dolores Claiborne","The Last Dragon","Halloween 5: The Revenge of Michael Myers","Harold and Kumar Go to White Castle","Todd McFarlane's Spawn","Jack","Dogma","Deep Cover","Firestarter","Fame","Michael Collins","Ed Wood","The Onion Field","The Pacifier","Speed","Untamed Heart","Left Behind II: Tribulation Force","Happiness","My Bodyguard","Love in the Afternoon","Legend of 1900","White Squall","He Loves Me He Loves Me Not","Return to Paradise","Domestic Disturbance","The Matrix: Revolutions","Millennium Actress","House of Sand and Fog","The Trip","Mean Girls","The Hand that Rocks the Cradle","Police Academy 3: Back in Training","Stir Crazy","An Ideal Husband","The Poseidon Adventure","Tuck Everlasting","Sea of Love","Taking Lives","The Alamo","Jimmy Neutron: Boy Genius","The In-Laws","Basquiat","Two Can Play That Game","Wild Things","Husbands and Wives","Rush Hour 2","Dinner Rush","Creepshow","Logan's Run","Ghost Dog: The Way of the Samurai","Dangerous Minds","First Knight","Rambo: First Blood Part II","Last Man Standing","Out for Justice","The Last Temptation of Christ","Igby Goes Down","One True Thing","Dead Ringers","Hellbound: Hellraiser II","Home Movie","Fahrenheit 451","Stuart Little 2","Nightbreed","The Perfect Storm","The Unsinkable Molly Brown","Airplane II: The Sequel","Taxi","The Devil's Own","The Replacement Killers","Marvin's Room","Sweet November","Ace Ventura: When Nature Calls","Blow Dry","I Capture the Castle","The Santa Clause","Mumford","Solaris"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>peli_id<\/th>\n      <th>media_peli<\/th>\n      <th>num_calif_peli<\/th>\n      <th>año<\/th>\n      <th>nombre<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 Ahora seleccionamos nuestra muestra de entrenamiento y de validación. Seleccionamos una
@@ -349,7 +349,7 @@ sprintf("Entrenamiento: %1d, Validación: %2d, Total: %3d", n_entrena,
 ```
 
 ```
-## [1] "Entrenamiento: 20191991, Validación: 776950, Total: 20968941"
+## [1] "Entrenamiento: 1003095, Validación: 45480, Total: 1048575"
 ```
 
 Ahora construimos predicciones con el modelo simple de arriba y evaluamos con validación:
@@ -366,13 +366,13 @@ head(dat_valida_pred)
 ```
 ## # A tibble: 6 × 5
 ##   peli_id calif fecha      usuario_id media_pred
-##     <dbl> <dbl> <date>          <int>      <dbl>
-## 1       2     5 2005-07-18        116       3.64
-## 2       2     4 2005-06-07        126       3.64
-## 3       2     4 2005-07-30        129       3.64
-## 4       2     1 2005-09-07        131       3.64
-## 5       2     1 2005-02-13        103       3.64
-## 6       8     1 2005-03-21       1007       3.19
+##     <dbl> <dbl> <chr>           <int>      <dbl>
+## 1       6     5 04/08/2004        785       3.05
+## 2       6     4 10/04/2005        787       3.05
+## 3       6     1 16/12/2005        790       3.05
+## 4       6     4 20/02/2004        799       3.05
+## 5       6     1 03/01/2005        815       3.05
+## 6       6     5 01/11/2004        818       3.05
 ```
 
 Nota que puede ser que algunas películas seleccionadas en validación no tengan evaluaciones en entrenamiento:
@@ -383,8 +383,8 @@ table(is.na(dat_valida_pred$media_pred))
 
 ```
 ## 
-##  FALSE 
-## 776950
+## FALSE 
+## 45480
 ```
 
 ```r
@@ -408,7 +408,7 @@ error
 ## # A tibble: 1 × 1
 ##   error
 ##   <dbl>
-## 1  1.03
+## 1  1.01
 ```
 
 Este error está en las mismas unidades de las calificaciones (estrellas en este caso).
@@ -438,6 +438,10 @@ ggplot(muestra_res, aes(x=factor(usuario_id), y = media_calif,
         ymin = media_calif - sd_calif, ymax = media_calif + sd_calif)) + 
   geom_linerange() + geom_point() + xlab('Usuario ID') +
   theme(axis.text.x=element_blank())
+```
+
+```
+## Warning: Removed 6 rows containing missing values (geom_segment).
 ```
 
 <img src="04-recomendacion_files/figure-html/unnamed-chunk-13-1.png" width="672" />
@@ -713,7 +717,7 @@ dat_valida |> ungroup() |> summarise(error = recm(calif, pred))
 ## # A tibble: 1 × 1
 ##   error
 ##   <dbl>
-## 1 0.929
+## 1 0.979
 ```
 
 **Observación**: ¿Qué tan bueno es este resultado? De 
@@ -951,7 +955,7 @@ sim_cos(comunes$calif_c, comunes$calif_c_2)
 ```
 
 ```
-## [1] 0.1769532
+## [1] NaN
 ```
 
 ```r
@@ -959,7 +963,7 @@ sim_cos(comunes_2$calif_c, comunes_2$calif_c_2)
 ```
 
 ```
-## [1] -0.3156217
+## [1] NaN
 ```
 
 Así que las dos Gremlins son algo similares, pero Gremlins $1$ y Harry Met Sally no son similares.
@@ -1008,28 +1012,8 @@ ejemplos(8199) |> head(20) |> knitr::kable()
 
 
 
-| peli_id| similitud| num_pares|  año|nombre                                |
-|-------:|---------:|---------:|----:|:-------------------------------------|
-|    8199| 1.0000000|      1379| 1985|The Purple Rose of Cairo              |
-|    6247| 0.4858263|       431| 1984|Broadway Danny Rose                   |
-|   16171| 0.4670051|       618| 1987|Radio Days                            |
-|    1058| 0.3940953|       485| 1972|Play it Again Sam                     |
-|    6610| 0.3814492|       106| 1965|The Pawnbroker                        |
-|   17341| 0.3748542|       545| 1983|Zelig                                 |
-|    1234| 0.3526710|       115| 1994|Crooklyn                              |
-|   12896| 0.3512115|       754| 1994|Bullets Over Broadway                 |
-|    9540| 0.3509817|       101| 1987|The Decalogue                         |
-|    2599| 0.3503702|       112| 1959|Black Orpheus                         |
-|   16709| 0.3480806|       342| 1980|Stardust Memories                     |
-|    5577| 0.3480255|       158| 1957|Throne of Blood                       |
-|   10605| 0.3479292|       148| 1976|The Front                             |
-|   15808| 0.3468051|       165| 1996|Citizen Ruth                          |
-|   10918| 0.3370929|       139| 1987|Black Adder III                       |
-|   10601| 0.3349099|       152| 1972|The Discreet Charm of the Bourgeoisie |
-|   16889| 0.3294090|       408| 1969|Take the Money and Run                |
-|    6070| 0.3217371|       117| 1989|Black Adder IV                        |
-|   11301| 0.3118192|       137| 1973|The Wicker Man                        |
-|   11720| 0.3050482|       108| 1978|Goin' South                           |
+| peli_id| similitud| num_pares| año|nombre |
+|-------:|---------:|---------:|---:|:------|
 
 
 ```r
@@ -1046,28 +1030,8 @@ ejemplos(6807) |> head(20) |> knitr::kable()
 
 
 
-| peli_id| similitud| num_pares|  año|nombre                         |
-|-------:|---------:|---------:|----:|:------------------------------|
-|    6807| 1.0000000|      2075| 1963|8 1/2                          |
-|   16241| 0.7429705|       677| 1960|La Dolce Vita                  |
-|   15303| 0.6768162|       118| 1952|Umberto D.                     |
-|    9485| 0.6680970|       269| 1967|Persona                        |
-|    5605| 0.6356236|       141| 1946|Children of Paradise           |
-|   15786| 0.6017523|       564| 1957|Wild Strawberries              |
-|    2965| 0.5878489|       760| 1957|The Seventh Seal               |
-|   13377| 0.5808940|       123| 1963|Winter Light                   |
-|   10276| 0.5738983|       654| 1950|Rashomon                       |
-|    1708| 0.5719259|       328| 1936|Modern Times                   |
-|    1735| 0.5712199|       314| 1974|Amarcord                       |
-|    7912| 0.5677752|       243| 1960|L'Avventura                    |
-|   12721| 0.5674579|       283| 1952|Ikiru                          |
-|   10661| 0.5665439|       169| 1953|Tokyo Story                    |
-|   17184| 0.5612483|       240| 1939|The Rules of the Game          |
-|   10277| 0.5571376|       717| 1948|The Bicycle Thief              |
-|   12871| 0.5523090|       123| 1926|Our Hospitality / Sherlock Jr. |
-|    8790| 0.5516619|       112| 1929|Man with the Movie Camera      |
-|     840| 0.5498725|       212| 1941|The Lady Eve                   |
-|   15016| 0.5497364|       227| 1928|The Passion of Joan of Arc     |
+| peli_id| similitud| num_pares| año|nombre |
+|-------:|---------:|---------:|---:|:------|
 
 El problema otra vez es similitudes ruidosas que provienen de pocas evaluaciones en común. 
 
@@ -1089,29 +1053,9 @@ ejemplos(11271)   |> head(20)
 ```
 
 ```
-## # A tibble: 20 × 5
-##    peli_id similitud num_pares   año nombre                                     
-##      <dbl>     <dbl>     <int> <dbl> <chr>                                      
-##  1   11271     1          5583  1994 Friends: Season 1                          
-##  2    5309     0.944      2679  1997 Friends: Season 4                          
-##  3    3078     0.938      3187  1994 The Best of Friends: Season 2              
-##  4    5414     0.934      3335  1996 Friends: Season 3                          
-##  5    2938     0.930      3000  1994 The Best of Friends: Season 1              
-##  6   15307     0.924      2931  1996 The Best of Friends: Season 3              
-##  7    8438     0.920      2903  1998 Friends: Season 5                          
-##  8    7158     0.919      2094  1997 The Best of Friends: Season 4              
-##  9    2942     0.913      2708  1999 Friends: Season 6                          
-## 10   15689     0.912      2894  1994 The Best of Friends: Vol. 1                
-## 11    9909     0.909      2167  2002 Friends: Season 9                          
-## 12    5837     0.908      2554  1999 Friends: Season 7                          
-## 13   16083     0.907      1960  1994 The Best of Friends: Vol. 2                
-## 14    1877     0.907      3123  1995 Friends: Season 2                          
-## 15    1256     0.898      1723  1994 The Best of Friends: Vol. 4                
-## 16   15777     0.898      2478  2001 Friends: Season 8                          
-## 17   14283     0.886      1544  1994 The Best of Friends: Vol. 3                
-## 18    7780     0.858      2481  2004 Friends: The Series Finale                 
-## 19   13042     0.629       416  2001 Will & Grace: Season 4                     
-## 20    1915     0.623       169  2000 Law & Order: Special Victims Unit: The Sec…
+## # A tibble: 0 × 5
+## # … with 5 variables: peli_id <dbl>, similitud <dbl>, num_pares <int>,
+## #   año <dbl>, nombre <chr>
 ```
 
 ```r
@@ -1124,29 +1068,9 @@ ejemplos(11929)  |> head(20)
 ```
 
 ```
-## # A tibble: 20 × 5
-##    peli_id similitud num_pares   año nombre                          
-##      <dbl>     <dbl>     <int> <dbl> <chr>                           
-##  1   11929     1          1955  1997 Anaconda                        
-##  2   11687     0.716       274  1994 Street Fighter                  
-##  3   15698     0.685       175  1995 Fair Game                       
-##  4   13417     0.680       116  1997 Home Alone 3                    
-##  5    1100     0.671       169  2000 Dr. T & the Women               
-##  6   12149     0.671       708  1997 Speed 2: Cruise Control         
-##  7   17221     0.670       645  1993 Look Who's Talking Now          
-##  8    5366     0.662       139  1999 The Mod Squad                   
-##  9   16146     0.654       146  2003 The Real Cancun                 
-## 10    5106     0.652       129  1994 House Party 3                   
-## 11   12171     0.648       452  2000 Battlefield Earth               
-## 12   16283     0.645       170  1994 Cops & Robbersons               
-## 13   15958     0.644       102  1994 Darkman II: The Return of Durant
-## 14   12517     0.643       284  2003 Gigli                           
-## 15   13607     0.642       137  1992 Stop! Or My Mom Will Shoot      
-## 16    1363     0.640       200  1993 Leprechaun                      
-## 17   12349     0.639       227  1993 Super Mario Bros.               
-## 18    7142     0.637       118  1996 Barb Wire                       
-## 19    3573     0.635       286  1993 Cop and a Half                  
-## 20    5005     0.634       290  1995 Vampire in Brooklyn
+## # A tibble: 0 × 5
+## # … with 5 variables: peli_id <dbl>, similitud <dbl>, num_pares <int>,
+## #   año <dbl>, nombre <chr>
 ```
 
 ```r
@@ -1159,29 +1083,9 @@ ejemplos(2660)  |> head(20)
 ```
 
 ```
-## # A tibble: 20 × 5
-##    peli_id similitud num_pares   año nombre                                     
-##      <dbl>     <dbl>     <int> <dbl> <chr>                                      
-##  1    2660     1         16940  1989 When Harry Met Sally                       
-##  2   16722     0.509       149  2001 The Godfather Trilogy: Bonus Material      
-##  3   12530     0.458      2861  2004 Sex and the City: Season 6: Part 2         
-##  4    8272     0.451       187  1960 The Andy Griffith Show: Season 1           
-##  5   14648     0.447       680  2003 Finding Nemo (Full-screen)                 
-##  6   11975     0.441       293  2005 Mad Hot Ballroom                           
-##  7   16711     0.441      3305  2003 Sex and the City: Season 6: Part 1         
-##  8    4427     0.433       744  2001 The West Wing: Season 3                    
-##  9   12184     0.430      2676  2002 Sex and the City: Season 5                 
-## 10   13073     0.426      2414  1946 It's a Wonderful Life                      
-## 11    7639     0.423       171  2004 Star Wars Trilogy: Bonus Material          
-## 12   13556     0.422       923  1999 The West Wing: Season 2                    
-## 13   14567     0.421       136  1959 Ben-Hur: Collector's Edition: Bonus Materi…
-## 14   14550     0.420     11743  1994 The Shawshank Redemption: Special Edition  
-## 15     270     0.420      3618  2001 Sex and the City: Season 4                 
-## 16    3456     0.419       553  2004 Lost: Season 1                             
-## 17    9909     0.418      1763  2002 Friends: Season 9                          
-## 18   16674     0.414       103  1994 Forrest Gump: Bonus Material               
-## 19    1542     0.410      9277  1993 Sleepless in Seattle                       
-## 20   12870     0.408      9397  1993 Schindler's List
+## # A tibble: 0 × 5
+## # … with 5 variables: peli_id <dbl>, similitud <dbl>, num_pares <int>,
+## #   año <dbl>, nombre <chr>
 ```
 
 ### Implementación 

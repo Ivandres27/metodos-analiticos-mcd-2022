@@ -1356,20 +1356,20 @@ fue descomposición en valores singulares).</p>
 <span id="cb369-7"><a href="dvs-y-reducción-de-dimensionalidad.html#cb369-7" aria-hidden="true" tabindex="-1"></a>  evals_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(ruta, <span class="at">col_types =</span> <span class="st">&quot;iii&quot;</span>)</span>
 <span id="cb369-8"><a href="dvs-y-reducción-de-dimensionalidad.html#cb369-8" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb369-9"><a href="dvs-y-reducción-de-dimensionalidad.html#cb369-9" aria-hidden="true" tabindex="-1"></a>evals_tbl</span></code></pre></div>
-<pre><code>## # A tibble: 20,968,941 × 5
+<pre><code>## # A tibble: 1,048,575 × 5
 ##    peli_id usuario_id_orig calif fecha      usuario_id
-##      &lt;int&gt;           &lt;int&gt; &lt;int&gt; &lt;date&gt;          &lt;dbl&gt;
-##  1       1            2442     3 2004-04-14          1
-##  2       1         1086807     3 2004-12-28          2
-##  3       1         2165002     4 2004-04-06          3
-##  4       1         1133214     4 2004-03-07          4
-##  5       1         1537427     4 2004-03-29          5
-##  6       1          525356     2 2004-07-11          6
-##  7       1         1910569     4 2004-04-12          7
-##  8       1         2421815     2 2004-02-26          8
-##  9       1         2508819     3 2004-05-18          9
-## 10       1         1342007     3 2004-07-16         10
-## # … with 20,968,931 more rows</code></pre>
+##      &lt;int&gt;           &lt;int&gt; &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;
+##  1       1            2442     3 14/04/2004          1
+##  2       1         1086807     3 28/12/2004          2
+##  3       1         2165002     4 06/04/2004          3
+##  4       1         1133214     4 07/03/2004          4
+##  5       1         1537427     4 29/03/2004          5
+##  6       1          525356     2 11/07/2004          6
+##  7       1         1910569     4 12/04/2004          7
+##  8       1         2421815     2 26/02/2004          8
+##  9       1         2508819     3 18/05/2004          9
+## 10       1         1342007     3 16/07/2004         10
+## # … with 1,048,565 more rows</code></pre>
 <div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="dvs-y-reducción-de-dimensionalidad.html#cb371-1" aria-hidden="true" tabindex="-1"></a>peliculas_nombres <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../datos/netflix/movies_title_fix.csv&quot;</span>,</span>
 <span id="cb371-2"><a href="dvs-y-reducción-de-dimensionalidad.html#cb371-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;peli_id&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;name&quot;</span>) )</span></code></pre></div>
 <pre><code>## Rows: 17770 Columns: 3</code></pre>
@@ -1412,7 +1412,7 @@ método que trate apropiadamente los datos faltantes es mejor).</p>
 <span id="cb377-11"><a href="dvs-y-reducción-de-dimensionalidad.html#cb377-11" aria-hidden="true" tabindex="-1"></a>  svd_parcial <span class="ot">&lt;-</span> <span class="fu">irlba</span>(evals_mat, <span class="dv">6</span>)</span>
 <span id="cb377-12"><a href="dvs-y-reducción-de-dimensionalidad.html#cb377-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="dvs-y-reducción-de-dimensionalidad.html#cb378-1" aria-hidden="true" tabindex="-1"></a>svd_parcial<span class="sc">$</span>d</span></code></pre></div>
-<pre><code>## [1] 917.5007 598.4652 392.0046 342.3649 333.8895 327.0080</code></pre>
+<pre><code>## [1] 206.8068 154.5664 151.6729 138.1779 137.4830 133.2784</code></pre>
 <div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="dvs-y-reducción-de-dimensionalidad.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="co">#no correr en notas</span></span>
 <span id="cb380-2"><a href="dvs-y-reducción-de-dimensionalidad.html#cb380-2" aria-hidden="true" tabindex="-1"></a>V_peliculas <span class="ot">&lt;-</span> svd_parcial<span class="sc">$</span>v <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="cn">NULL</span>) <span class="sc">|&gt;</span></span>
 <span id="cb380-3"><a href="dvs-y-reducción-de-dimensionalidad.html#cb380-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">peli_id =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span> </span>

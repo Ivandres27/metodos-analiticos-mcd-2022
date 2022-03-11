@@ -373,10 +373,10 @@ de dimensión).</p>
 que dice que a los primeros dos usuarios les gustan las películas serias, al tercero le gustan las divertidas, y los dos últimos no tienen preferencia clara a lo largo de esta dimensión.</p>
 <p>Qusiéramos predecir el gusto usando estos dos vectores. Nuestras predicciones (considerando que <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span> son matrices de una columna) serían simplemente</p>
 <p><span class="math display">\[\widetilde{X} = u v^t\]</span></p>
-<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="dimensiones-latentes-para-recomendación.html#cb536-1" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb536-2"><a href="dimensiones-latentes-para-recomendación.html#cb536-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb536-3"><a href="dimensiones-latentes-para-recomendación.html#cb536-3" aria-hidden="true" tabindex="-1"></a>gustos <span class="ot">&lt;-</span> u <span class="sc">%*%</span> <span class="fu">t</span>(v)</span>
-<span id="cb536-4"><a href="dimensiones-latentes-para-recomendación.html#cb536-4" aria-hidden="true" tabindex="-1"></a>gustos</span></code></pre></div>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="dimensiones-latentes-para-recomendación.html#cb537-1" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb537-2"><a href="dimensiones-latentes-para-recomendación.html#cb537-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb537-3"><a href="dimensiones-latentes-para-recomendación.html#cb537-3" aria-hidden="true" tabindex="-1"></a>gustos <span class="ot">&lt;-</span> u <span class="sc">%*%</span> <span class="fu">t</span>(v)</span>
+<span id="cb537-4"><a href="dimensiones-latentes-para-recomendación.html#cb537-4" aria-hidden="true" tabindex="-1"></a>gustos</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]   -4    0    2
 ## [2,]   -6    0    3
@@ -394,37 +394,37 @@ Podemos proponer más dimensiones latentes de la siguiente forma:</p>
 <div id="ejemplo" class="section level3" number="6.0.2">
 <h3><span class="header-section-number">6.0.2</span> Ejemplo: dos dimensiones latentes</h3>
 <p>Tenemos la dimensión anterior de seria-divertida</p>
-<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="dimensiones-latentes-para-recomendación.html#cb538-1" aria-hidden="true" tabindex="-1"></a>v_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb538-2"><a href="dimensiones-latentes-para-recomendación.html#cb538-2" aria-hidden="true" tabindex="-1"></a>u_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="dimensiones-latentes-para-recomendación.html#cb539-1" aria-hidden="true" tabindex="-1"></a>v_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb539-2"><a href="dimensiones-latentes-para-recomendación.html#cb539-2" aria-hidden="true" tabindex="-1"></a>u_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span></code></pre></div>
 <p>Y supongamos que tenemos otra dimensión con violencia - sin violencia</p>
-<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="dimensiones-latentes-para-recomendación.html#cb539-1" aria-hidden="true" tabindex="-1"></a>v_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
-<span id="cb539-2"><a href="dimensiones-latentes-para-recomendación.html#cb539-2" aria-hidden="true" tabindex="-1"></a>u_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="dimensiones-latentes-para-recomendación.html#cb540-1" aria-hidden="true" tabindex="-1"></a>v_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb540-2"><a href="dimensiones-latentes-para-recomendación.html#cb540-2" aria-hidden="true" tabindex="-1"></a>u_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">4</span>)</span></code></pre></div>
 <p>Que quiere decir que las películas <span class="math inline">\(2, 3\)</span> tienen volencia, pero la película <span class="math inline">\(1\)</span> no. Por otra parte, a los usuarios <span class="math inline">\(1,2\)</span> y <span class="math inline">\(5\)</span> no les gustan las películas con violencia, mientras que al usuario <span class="math inline">\(5\)</span> si les gustan.</p>
 <p>La idea ahora es que el gusto de una persona por una película se escribe como combinación de las dos dimensiones. Por ejemplo, para la persona <span class="math inline">\(1\)</span> tenemos, y la película <span class="math inline">\(1\)</span>, empezamos haciendo</p>
-<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="dimensiones-latentes-para-recomendación.html#cb540-1" aria-hidden="true" tabindex="-1"></a>u_1[<span class="dv">1</span>]<span class="sc">*</span>v_1[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="dimensiones-latentes-para-recomendación.html#cb541-1" aria-hidden="true" tabindex="-1"></a>u_1[<span class="dv">1</span>]<span class="sc">*</span>v_1[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] -4</code></pre>
-<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="dimensiones-latentes-para-recomendación.html#cb542-1" aria-hidden="true" tabindex="-1"></a>u_2[<span class="dv">1</span>]<span class="sc">*</span>v_2[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="dimensiones-latentes-para-recomendación.html#cb543-1" aria-hidden="true" tabindex="-1"></a>u_2[<span class="dv">1</span>]<span class="sc">*</span>v_2[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 9</code></pre>
 <p>lo que quiere decir que el hecho de que la película <span class="math inline">\(1\)</span> no sea seria le resta <span class="math inline">\(4\)</span> en gusto (pues la película <span class="math inline">\(1\)</span> está del lado “divertido”), pero le suma <span class="math inline">\(9\)</span> en gusto, pues es una película sin violencia y esta persona está del lado “sin violencia.”</p>
 <p>Sumamos para encontrar el gusto total</p>
-<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="dimensiones-latentes-para-recomendación.html#cb544-1" aria-hidden="true" tabindex="-1"></a>u_1[<span class="dv">1</span>]<span class="sc">*</span>v_1[<span class="dv">1</span>] <span class="sc">+</span> u_2[<span class="dv">1</span>]<span class="sc">*</span>v_2[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="dimensiones-latentes-para-recomendación.html#cb545-1" aria-hidden="true" tabindex="-1"></a>u_1[<span class="dv">1</span>]<span class="sc">*</span>v_1[<span class="dv">1</span>] <span class="sc">+</span> u_2[<span class="dv">1</span>]<span class="sc">*</span>v_2[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 <p>Para calcular los gustos sobre todas las personas y películas, haríamos</p>
-<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="dimensiones-latentes-para-recomendación.html#cb546-1" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fu">cbind</span>(u_1, u_2)</span>
-<span id="cb546-2"><a href="dimensiones-latentes-para-recomendación.html#cb546-2" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">cbind</span>(v_1, v_2)</span>
-<span id="cb546-3"><a href="dimensiones-latentes-para-recomendación.html#cb546-3" aria-hidden="true" tabindex="-1"></a>U</span></code></pre></div>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="dimensiones-latentes-para-recomendación.html#cb547-1" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fu">cbind</span>(u_1, u_2)</span>
+<span id="cb547-2"><a href="dimensiones-latentes-para-recomendación.html#cb547-2" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">cbind</span>(v_1, v_2)</span>
+<span id="cb547-3"><a href="dimensiones-latentes-para-recomendación.html#cb547-3" aria-hidden="true" tabindex="-1"></a>U</span></code></pre></div>
 <pre><code>##      u_1 u_2
 ## [1,]   2  -3
 ## [2,]   3  -3
 ## [3,]  -3   0
 ## [4,]   0  -2
 ## [5,]   1   4</code></pre>
-<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="dimensiones-latentes-para-recomendación.html#cb548-1" aria-hidden="true" tabindex="-1"></a>V</span></code></pre></div>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="dimensiones-latentes-para-recomendación.html#cb549-1" aria-hidden="true" tabindex="-1"></a>V</span></code></pre></div>
 <pre><code>##      v_1 v_2
 ## [1,]  -2  -3
 ## [2,]   0   2
 ## [3,]   1   2</code></pre>
-<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="dimensiones-latentes-para-recomendación.html#cb550-1" aria-hidden="true" tabindex="-1"></a>U <span class="sc">%*%</span> <span class="fu">t</span>(V)</span></code></pre></div>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="dimensiones-latentes-para-recomendación.html#cb551-1" aria-hidden="true" tabindex="-1"></a>U <span class="sc">%*%</span> <span class="fu">t</span>(V)</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    5   -6   -4
 ## [2,]    3   -6   -3
@@ -557,61 +557,61 @@ es diferente en spark, ver <a href="https://github.com/apache/spark/blob/v3.0.0/
 un vector de <span class="math inline">\(N(0,1)\)</span> normalizado.</p>
 <p>En este caso, copiamos nuestra tabla a spark (nota: esto es algo que normalmente no haríamos, los datos habrían sido cargados en el cluster
 de spark de otra forma):</p>
-<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="dimensiones-latentes-para-recomendación.html#cb552-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb552-2"><a href="dimensiones-latentes-para-recomendación.html#cb552-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sparklyr)</span>
-<span id="cb552-3"><a href="dimensiones-latentes-para-recomendación.html#cb552-3" aria-hidden="true" tabindex="-1"></a><span class="co"># configuración para spark</span></span>
-<span id="cb552-4"><a href="dimensiones-latentes-para-recomendación.html#cb552-4" aria-hidden="true" tabindex="-1"></a><span class="fu">spark_install</span>(<span class="at">version =</span> <span class="st">&quot;3.1.2&quot;</span>)</span>
-<span id="cb552-5"><a href="dimensiones-latentes-para-recomendación.html#cb552-5" aria-hidden="true" tabindex="-1"></a>config <span class="ot">&lt;-</span> <span class="fu">spark_config</span>()</span>
-<span id="cb552-6"><a href="dimensiones-latentes-para-recomendación.html#cb552-6" aria-hidden="true" tabindex="-1"></a>config<span class="sc">$</span><span class="st">`</span><span class="at">spark.env.SPARK_LOCAL_IP.local</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="st">&quot;0.0.0.0&quot;</span></span>
-<span id="cb552-7"><a href="dimensiones-latentes-para-recomendación.html#cb552-7" aria-hidden="true" tabindex="-1"></a>config<span class="sc">$</span><span class="st">`</span><span class="at">sparklyr.shell.driver-memory</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="st">&quot;8G&quot;</span></span>
-<span id="cb552-8"><a href="dimensiones-latentes-para-recomendación.html#cb552-8" aria-hidden="true" tabindex="-1"></a>config<span class="sc">$</span>spark.executor.memory <span class="ot">&lt;-</span> <span class="st">&quot;2G&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="dimensiones-latentes-para-recomendación.html#cb553-1" aria-hidden="true" tabindex="-1"></a><span class="co"># conectar con &quot;cluster&quot; local</span></span>
-<span id="cb553-2"><a href="dimensiones-latentes-para-recomendación.html#cb553-2" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">spark_connect</span>(<span class="at">master =</span> <span class="st">&quot;local&quot;</span>, <span class="at">config =</span> config)</span></code></pre></div>
-<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="dimensiones-latentes-para-recomendación.html#cb554-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spark_set_checkpoint_dir</span>(sc, <span class="st">&#39;./checkpoint&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="dimensiones-latentes-para-recomendación.html#cb555-1" aria-hidden="true" tabindex="-1"></a>dat_tbl <span class="ot">&lt;-</span> <span class="fu">spark_read_csv</span>(sc, <span class="at">name=</span><span class="st">&quot;netflix&quot;</span>, <span class="st">&quot;../datos/netflix/dat_muestra_nflix.csv&quot;</span>) </span>
-<span id="cb555-2"><a href="dimensiones-latentes-para-recomendación.html#cb555-2" aria-hidden="true" tabindex="-1"></a>dat_tbl <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>fecha)</span></code></pre></div>
-<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="dimensiones-latentes-para-recomendación.html#cb556-1" aria-hidden="true" tabindex="-1"></a>usuario_val <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(usuario_id) <span class="sc">|&gt;</span> </span>
-<span id="cb556-2"><a href="dimensiones-latentes-para-recomendación.html#cb556-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sdf_distinct</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb556-3"><a href="dimensiones-latentes-para-recomendación.html#cb556-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sdf_sample</span>(<span class="at">fraction =</span> <span class="fl">0.1</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb556-4"><a href="dimensiones-latentes-para-recomendación.html#cb556-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="st">&quot;usuario_val&quot;</span>)</span>
-<span id="cb556-5"><a href="dimensiones-latentes-para-recomendación.html#cb556-5" aria-hidden="true" tabindex="-1"></a>pelicula_val <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(peli_id) <span class="sc">|&gt;</span></span>
-<span id="cb556-6"><a href="dimensiones-latentes-para-recomendación.html#cb556-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sdf_distinct</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb556-7"><a href="dimensiones-latentes-para-recomendación.html#cb556-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sdf_sample</span>(<span class="at">fraction =</span> <span class="fl">0.1</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb556-8"><a href="dimensiones-latentes-para-recomendación.html#cb556-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="st">&quot;pelicula_val&quot;</span>)</span>
-<span id="cb556-9"><a href="dimensiones-latentes-para-recomendación.html#cb556-9" aria-hidden="true" tabindex="-1"></a>valida_tbl <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb556-10"><a href="dimensiones-latentes-para-recomendación.html#cb556-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(usuario_val) <span class="sc">|&gt;</span> </span>
-<span id="cb556-11"><a href="dimensiones-latentes-para-recomendación.html#cb556-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(pelicula_val) <span class="sc">|&gt;</span> </span>
-<span id="cb556-12"><a href="dimensiones-latentes-para-recomendación.html#cb556-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="st">&quot;valida_tbl&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="dimensiones-latentes-para-recomendación.html#cb553-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb553-2"><a href="dimensiones-latentes-para-recomendación.html#cb553-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sparklyr)</span>
+<span id="cb553-3"><a href="dimensiones-latentes-para-recomendación.html#cb553-3" aria-hidden="true" tabindex="-1"></a><span class="co"># configuración para spark</span></span>
+<span id="cb553-4"><a href="dimensiones-latentes-para-recomendación.html#cb553-4" aria-hidden="true" tabindex="-1"></a><span class="fu">spark_install</span>(<span class="at">version =</span> <span class="st">&quot;3.1.2&quot;</span>)</span>
+<span id="cb553-5"><a href="dimensiones-latentes-para-recomendación.html#cb553-5" aria-hidden="true" tabindex="-1"></a>config <span class="ot">&lt;-</span> <span class="fu">spark_config</span>()</span>
+<span id="cb553-6"><a href="dimensiones-latentes-para-recomendación.html#cb553-6" aria-hidden="true" tabindex="-1"></a>config<span class="sc">$</span><span class="st">`</span><span class="at">spark.env.SPARK_LOCAL_IP.local</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="st">&quot;0.0.0.0&quot;</span></span>
+<span id="cb553-7"><a href="dimensiones-latentes-para-recomendación.html#cb553-7" aria-hidden="true" tabindex="-1"></a>config<span class="sc">$</span><span class="st">`</span><span class="at">sparklyr.shell.driver-memory</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="st">&quot;8G&quot;</span></span>
+<span id="cb553-8"><a href="dimensiones-latentes-para-recomendación.html#cb553-8" aria-hidden="true" tabindex="-1"></a>config<span class="sc">$</span>spark.executor.memory <span class="ot">&lt;-</span> <span class="st">&quot;2G&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="dimensiones-latentes-para-recomendación.html#cb554-1" aria-hidden="true" tabindex="-1"></a><span class="co"># conectar con &quot;cluster&quot; local</span></span>
+<span id="cb554-2"><a href="dimensiones-latentes-para-recomendación.html#cb554-2" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">spark_connect</span>(<span class="at">master =</span> <span class="st">&quot;local&quot;</span>, <span class="at">config =</span> config)</span></code></pre></div>
+<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="dimensiones-latentes-para-recomendación.html#cb555-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spark_set_checkpoint_dir</span>(sc, <span class="st">&#39;./checkpoint&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="dimensiones-latentes-para-recomendación.html#cb556-1" aria-hidden="true" tabindex="-1"></a>dat_tbl <span class="ot">&lt;-</span> <span class="fu">spark_read_csv</span>(sc, <span class="at">name=</span><span class="st">&quot;netflix&quot;</span>, <span class="st">&quot;../datos/netflix/dat_muestra_nflix.csv&quot;</span>) </span>
+<span id="cb556-2"><a href="dimensiones-latentes-para-recomendación.html#cb556-2" aria-hidden="true" tabindex="-1"></a>dat_tbl <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>fecha)</span></code></pre></div>
+<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="dimensiones-latentes-para-recomendación.html#cb557-1" aria-hidden="true" tabindex="-1"></a>usuario_val <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(usuario_id) <span class="sc">|&gt;</span> </span>
+<span id="cb557-2"><a href="dimensiones-latentes-para-recomendación.html#cb557-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sdf_distinct</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb557-3"><a href="dimensiones-latentes-para-recomendación.html#cb557-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sdf_sample</span>(<span class="at">fraction =</span> <span class="fl">0.1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb557-4"><a href="dimensiones-latentes-para-recomendación.html#cb557-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="st">&quot;usuario_val&quot;</span>)</span>
+<span id="cb557-5"><a href="dimensiones-latentes-para-recomendación.html#cb557-5" aria-hidden="true" tabindex="-1"></a>pelicula_val <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(peli_id) <span class="sc">|&gt;</span></span>
+<span id="cb557-6"><a href="dimensiones-latentes-para-recomendación.html#cb557-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sdf_distinct</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb557-7"><a href="dimensiones-latentes-para-recomendación.html#cb557-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sdf_sample</span>(<span class="at">fraction =</span> <span class="fl">0.1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb557-8"><a href="dimensiones-latentes-para-recomendación.html#cb557-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="st">&quot;pelicula_val&quot;</span>)</span>
+<span id="cb557-9"><a href="dimensiones-latentes-para-recomendación.html#cb557-9" aria-hidden="true" tabindex="-1"></a>valida_tbl <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb557-10"><a href="dimensiones-latentes-para-recomendación.html#cb557-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(usuario_val) <span class="sc">|&gt;</span> </span>
+<span id="cb557-11"><a href="dimensiones-latentes-para-recomendación.html#cb557-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(pelicula_val) <span class="sc">|&gt;</span> </span>
+<span id="cb557-12"><a href="dimensiones-latentes-para-recomendación.html#cb557-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="st">&quot;valida_tbl&quot;</span>)</span></code></pre></div>
 <pre><code>## Joining, by = &quot;usuario_id&quot;</code></pre>
 <pre><code>## Joining, by = &quot;peli_id&quot;</code></pre>
-<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="dimensiones-latentes-para-recomendación.html#cb559-1" aria-hidden="true" tabindex="-1"></a>entrena_tbl <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> <span class="fu">anti_join</span>(valida_tbl) <span class="sc">|&gt;</span> </span>
-<span id="cb559-2"><a href="dimensiones-latentes-para-recomendación.html#cb559-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="st">&quot;entrena_tbl&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="dimensiones-latentes-para-recomendación.html#cb560-1" aria-hidden="true" tabindex="-1"></a>entrena_tbl <span class="ot">&lt;-</span> dat_tbl <span class="sc">|&gt;</span> <span class="fu">anti_join</span>(valida_tbl) <span class="sc">|&gt;</span> </span>
+<span id="cb560-2"><a href="dimensiones-latentes-para-recomendación.html#cb560-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="st">&quot;entrena_tbl&quot;</span>)</span></code></pre></div>
 <pre><code>## Joining, by = c(&quot;peli_id&quot;, &quot;usuario_id_orig&quot;, &quot;calif&quot;, &quot;usuario_id&quot;)</code></pre>
-<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="dimensiones-latentes-para-recomendación.html#cb561-1" aria-hidden="true" tabindex="-1"></a>entrena_tbl <span class="sc">|&gt;</span> <span class="fu">tally</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="dimensiones-latentes-para-recomendación.html#cb562-1" aria-hidden="true" tabindex="-1"></a>entrena_tbl <span class="sc">|&gt;</span> <span class="fu">tally</span>()</span></code></pre></div>
 <pre><code>## # Source: spark&lt;?&gt; [?? x 1]
-##          n
-##      &lt;dbl&gt;
-## 1 20782953</code></pre>
-<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="dimensiones-latentes-para-recomendación.html#cb563-1" aria-hidden="true" tabindex="-1"></a>valida_tbl <span class="sc">|&gt;</span> <span class="fu">tally</span>()</span></code></pre></div>
+##         n
+##     &lt;dbl&gt;
+## 1 1041485</code></pre>
+<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="dimensiones-latentes-para-recomendación.html#cb564-1" aria-hidden="true" tabindex="-1"></a>valida_tbl <span class="sc">|&gt;</span> <span class="fu">tally</span>()</span></code></pre></div>
 <pre><code>## # Source: spark&lt;?&gt; [?? x 1]
-##        n
-##    &lt;dbl&gt;
-## 1 203635</code></pre>
+##       n
+##   &lt;dbl&gt;
+## 1  7672</code></pre>
 <p>Vamos a hacer primero una descomposición en <span class="math inline">\(15\)</span> factores,
 con regularización relativamente alta:</p>
-<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="dimensiones-latentes-para-recomendación.html#cb565-1" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">ml_als</span>(entrena_tbl, </span>
-<span id="cb565-2"><a href="dimensiones-latentes-para-recomendación.html#cb565-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">rating_col =</span> <span class="st">&#39;calif&#39;</span>,</span>
-<span id="cb565-3"><a href="dimensiones-latentes-para-recomendación.html#cb565-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">user_col =</span> <span class="st">&#39;usuario_id&#39;</span>,</span>
-<span id="cb565-4"><a href="dimensiones-latentes-para-recomendación.html#cb565-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">item_col =</span> <span class="st">&#39;peli_id&#39;</span>, </span>
-<span id="cb565-5"><a href="dimensiones-latentes-para-recomendación.html#cb565-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">rank =</span> <span class="dv">15</span>, <span class="at">reg_param =</span> <span class="fl">0.05</span>,</span>
-<span id="cb565-6"><a href="dimensiones-latentes-para-recomendación.html#cb565-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">checkpoint_interval =</span> <span class="dv">4</span>,</span>
-<span id="cb565-7"><a href="dimensiones-latentes-para-recomendación.html#cb565-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">max_iter =</span> <span class="dv">50</span>)</span>
-<span id="cb565-8"><a href="dimensiones-latentes-para-recomendación.html#cb565-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Nota: checkpoint evita que la gráfica de cálculo</span></span>
-<span id="cb565-9"><a href="dimensiones-latentes-para-recomendación.html#cb565-9" aria-hidden="true" tabindex="-1"></a><span class="co"># sea demasiado grande. Cada 4 iteraciones hace una</span></span>
-<span id="cb565-10"><a href="dimensiones-latentes-para-recomendación.html#cb565-10" aria-hidden="true" tabindex="-1"></a><span class="co"># nueva gráfica con los resultados de la última iteración.</span></span></code></pre></div>
-<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="dimensiones-latentes-para-recomendación.html#cb566-1" aria-hidden="true" tabindex="-1"></a>modelo</span></code></pre></div>
+<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="dimensiones-latentes-para-recomendación.html#cb566-1" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">ml_als</span>(entrena_tbl, </span>
+<span id="cb566-2"><a href="dimensiones-latentes-para-recomendación.html#cb566-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">rating_col =</span> <span class="st">&#39;calif&#39;</span>,</span>
+<span id="cb566-3"><a href="dimensiones-latentes-para-recomendación.html#cb566-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">user_col =</span> <span class="st">&#39;usuario_id&#39;</span>,</span>
+<span id="cb566-4"><a href="dimensiones-latentes-para-recomendación.html#cb566-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">item_col =</span> <span class="st">&#39;peli_id&#39;</span>, </span>
+<span id="cb566-5"><a href="dimensiones-latentes-para-recomendación.html#cb566-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">rank =</span> <span class="dv">15</span>, <span class="at">reg_param =</span> <span class="fl">0.05</span>,</span>
+<span id="cb566-6"><a href="dimensiones-latentes-para-recomendación.html#cb566-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">checkpoint_interval =</span> <span class="dv">4</span>,</span>
+<span id="cb566-7"><a href="dimensiones-latentes-para-recomendación.html#cb566-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">max_iter =</span> <span class="dv">50</span>)</span>
+<span id="cb566-8"><a href="dimensiones-latentes-para-recomendación.html#cb566-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Nota: checkpoint evita que la gráfica de cálculo</span></span>
+<span id="cb566-9"><a href="dimensiones-latentes-para-recomendación.html#cb566-9" aria-hidden="true" tabindex="-1"></a><span class="co"># sea demasiado grande. Cada 4 iteraciones hace una</span></span>
+<span id="cb566-10"><a href="dimensiones-latentes-para-recomendación.html#cb566-10" aria-hidden="true" tabindex="-1"></a><span class="co"># nueva gráfica con los resultados de la última iteración.</span></span></code></pre></div>
+<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="dimensiones-latentes-para-recomendación.html#cb567-1" aria-hidden="true" tabindex="-1"></a>modelo</span></code></pre></div>
 <pre><code>## ALSModel (Transformer)
-## &lt;als__1b7fc6e5_212d_4693_a656_219559261f17&gt; 
+## &lt;als__1c089488_5779_4586_b98a_27c8e9cc171c&gt; 
 ##  (Parameters -- Column Names)
 ##   cold_start_strategy: nan
 ##   item_col: peli_id
@@ -624,40 +624,40 @@ con regularización relativamente alta:</p>
 ##   recommend_for_all_users: &lt;function&gt; 
 ##   user_factors: &lt;tbl_spark&gt;</code></pre>
 <p>Hacemos predicciones para el conjunto de validación:</p>
-<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="dimensiones-latentes-para-recomendación.html#cb568-1" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">ml_predict</span>(modelo, valida_tbl) <span class="sc">|&gt;</span></span>
-<span id="cb568-2"><a href="dimensiones-latentes-para-recomendación.html#cb568-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction =</span> <span class="fu">ifelse</span>(<span class="fu">isnan</span>(prediction), <span class="fl">3.5</span>, prediction))</span>
-<span id="cb568-3"><a href="dimensiones-latentes-para-recomendación.html#cb568-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ml_regression_evaluator</span>(preds, <span class="at">label_col =</span> <span class="st">&quot;calif&quot;</span>, <span class="at">prediction_col =</span> <span class="st">&quot;prediction&quot;</span>,</span>
-<span id="cb568-4"><a href="dimensiones-latentes-para-recomendación.html#cb568-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric_name =</span> <span class="st">&quot;rmse&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] 0.8425923</code></pre>
+<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="dimensiones-latentes-para-recomendación.html#cb569-1" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">ml_predict</span>(modelo, valida_tbl) <span class="sc">|&gt;</span></span>
+<span id="cb569-2"><a href="dimensiones-latentes-para-recomendación.html#cb569-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction =</span> <span class="fu">ifelse</span>(<span class="fu">isnan</span>(prediction), <span class="fl">3.5</span>, prediction))</span>
+<span id="cb569-3"><a href="dimensiones-latentes-para-recomendación.html#cb569-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ml_regression_evaluator</span>(preds, <span class="at">label_col =</span> <span class="st">&quot;calif&quot;</span>, <span class="at">prediction_col =</span> <span class="st">&quot;prediction&quot;</span>,</span>
+<span id="cb569-4"><a href="dimensiones-latentes-para-recomendación.html#cb569-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric_name =</span> <span class="st">&quot;rmse&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 1.014499</code></pre>
 <p>Y podemos traer a R los datos de validación (que son chicos) para examinar:</p>
-<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="dimensiones-latentes-para-recomendación.html#cb570-1" aria-hidden="true" tabindex="-1"></a>preds_df <span class="ot">&lt;-</span> preds <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="co">#traemos a R con collect</span></span>
-<span id="cb570-2"><a href="dimensiones-latentes-para-recomendación.html#cb570-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(preds_df, <span class="fu">aes</span>(<span class="at">x =</span> prediction)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="dimensiones-latentes-para-recomendación.html#cb571-1" aria-hidden="true" tabindex="-1"></a>preds_df <span class="ot">&lt;-</span> preds <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="co">#traemos a R con collect</span></span>
+<span id="cb571-2"><a href="dimensiones-latentes-para-recomendación.html#cb571-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(preds_df, <span class="fu">aes</span>(<span class="at">x =</span> prediction)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="05-recomendacion-latente_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>Y redujimos considerablemente el error del modelo base. Examinamos
 ahora las dimensiones asociadas con películas:</p>
-<div class="sourceCode" id="cb572"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb572-1"><a href="dimensiones-latentes-para-recomendación.html#cb572-1" aria-hidden="true" tabindex="-1"></a>modelo<span class="sc">$</span>item_factors </span></code></pre></div>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="dimensiones-latentes-para-recomendación.html#cb573-1" aria-hidden="true" tabindex="-1"></a>modelo<span class="sc">$</span>item_factors </span></code></pre></div>
 <pre><code>## # Source: spark&lt;?&gt; [?? x 3]
 ##       id features   features_1
 ##    &lt;int&gt; &lt;list&gt;          &lt;dbl&gt;
-##  1    10 &lt;dbl [15]&gt;     -0.586
-##  2    20 &lt;dbl [15]&gt;     -0.513
-##  3    30 &lt;dbl [15]&gt;     -0.765
-##  4    40 &lt;dbl [15]&gt;     -0.689
-##  5    50 &lt;dbl [15]&gt;     -0.746
-##  6    60 &lt;dbl [15]&gt;     -0.319
-##  7    70 &lt;dbl [15]&gt;     -0.564
-##  8    80 &lt;dbl [15]&gt;     -0.897
-##  9    90 &lt;dbl [15]&gt;     -0.547
-## 10   100 &lt;dbl [15]&gt;     -0.779
+##  1    10 &lt;dbl [15]&gt;     0.0662
+##  2    20 &lt;dbl [15]&gt;    -0.589 
+##  3    30 &lt;dbl [15]&gt;    -0.0721
+##  4    40 &lt;dbl [15]&gt;    -0.248 
+##  5    50 &lt;dbl [15]&gt;    -0.451 
+##  6    60 &lt;dbl [15]&gt;    -0.0224
+##  7    70 &lt;dbl [15]&gt;     0.0535
+##  8    80 &lt;dbl [15]&gt;    -0.349 
+##  9    90 &lt;dbl [15]&gt;    -0.662 
+## 10   100 &lt;dbl [15]&gt;     0.0396
 ## # … with more rows</code></pre>
-<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb574-1"><a href="dimensiones-latentes-para-recomendación.html#cb574-1" aria-hidden="true" tabindex="-1"></a>V_df <span class="ot">&lt;-</span> modelo<span class="sc">$</span>item_factors <span class="sc">|&gt;</span></span>
-<span id="cb574-2"><a href="dimensiones-latentes-para-recomendación.html#cb574-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, features) <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb574-3"><a href="dimensiones-latentes-para-recomendación.html#cb574-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(features, <span class="at">names_sep =</span> <span class="st">&quot;_&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="dimensiones-latentes-para-recomendación.html#cb575-1" aria-hidden="true" tabindex="-1"></a>V_df <span class="ot">&lt;-</span> modelo<span class="sc">$</span>item_factors <span class="sc">|&gt;</span></span>
+<span id="cb575-2"><a href="dimensiones-latentes-para-recomendación.html#cb575-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, features) <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb575-3"><a href="dimensiones-latentes-para-recomendación.html#cb575-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(features, <span class="at">names_sep =</span> <span class="st">&quot;_&quot;</span>)</span></code></pre></div>
 <p>Nota: La columna <em>features</em> contiene la misma información de <em>feature_1,feature_2,…</em>, pero en forma de lista.</p>
 <p>Examinemos la interpretación de los factores latentes de las
 películas.</p>
-<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="dimensiones-latentes-para-recomendación.html#cb575-1" aria-hidden="true" tabindex="-1"></a>pelis_nombres <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;../datos/netflix/movies_title_fix.csv&#39;</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>, <span class="at">na =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>, <span class="st">&quot;NULL&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="dimensiones-latentes-para-recomendación.html#cb576-1" aria-hidden="true" tabindex="-1"></a>pelis_nombres <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;../datos/netflix/movies_title_fix.csv&#39;</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>, <span class="at">na =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>, <span class="st">&quot;NULL&quot;</span>))</span></code></pre></div>
 <pre><code>## Rows: 17770 Columns: 3</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -666,97 +666,97 @@ películas.</p>
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="dimensiones-latentes-para-recomendación.html#cb579-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pelis_nombres) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;peli_id&#39;</span>,<span class="st">&#39;año&#39;</span>,<span class="st">&#39;nombre&#39;</span>)</span>
-<span id="cb579-2"><a href="dimensiones-latentes-para-recomendación.html#cb579-2" aria-hidden="true" tabindex="-1"></a>medias_peliculas <span class="ot">&lt;-</span> entrena_tbl <span class="sc">|&gt;</span> <span class="fu">group_by</span>(peli_id) <span class="sc">|&gt;</span> </span>
-<span id="cb579-3"><a href="dimensiones-latentes-para-recomendación.html#cb579-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">num_calif_peli =</span> <span class="fu">n</span>(), <span class="at">media_peli =</span> <span class="fu">mean</span>(calif)) <span class="sc">|&gt;</span> </span>
-<span id="cb579-4"><a href="dimensiones-latentes-para-recomendación.html#cb579-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb580-1"><a href="dimensiones-latentes-para-recomendación.html#cb580-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pelis_nombres) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;peli_id&#39;</span>,<span class="st">&#39;año&#39;</span>,<span class="st">&#39;nombre&#39;</span>)</span>
+<span id="cb580-2"><a href="dimensiones-latentes-para-recomendación.html#cb580-2" aria-hidden="true" tabindex="-1"></a>medias_peliculas <span class="ot">&lt;-</span> entrena_tbl <span class="sc">|&gt;</span> <span class="fu">group_by</span>(peli_id) <span class="sc">|&gt;</span> </span>
+<span id="cb580-3"><a href="dimensiones-latentes-para-recomendación.html#cb580-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">num_calif_peli =</span> <span class="fu">n</span>(), <span class="at">media_peli =</span> <span class="fu">mean</span>(calif)) <span class="sc">|&gt;</span> </span>
+<span id="cb580-4"><a href="dimensiones-latentes-para-recomendación.html#cb580-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div>
 <pre><code>## Warning: Missing values are always removed in SQL.
 ## Use `mean(x, na.rm = TRUE)` to silence this warning
 ## This warning is displayed only once per session.</code></pre>
-<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="dimensiones-latentes-para-recomendación.html#cb581-1" aria-hidden="true" tabindex="-1"></a>latentes_pelis <span class="ot">&lt;-</span> V_df <span class="sc">|&gt;</span> </span>
-<span id="cb581-2"><a href="dimensiones-latentes-para-recomendación.html#cb581-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">peli_id =</span> id) <span class="sc">|&gt;</span> </span>
-<span id="cb581-3"><a href="dimensiones-latentes-para-recomendación.html#cb581-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pelis_nombres <span class="sc">|&gt;</span> <span class="fu">left_join</span>(medias_peliculas))</span></code></pre></div>
+<div class="sourceCode" id="cb582"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb582-1"><a href="dimensiones-latentes-para-recomendación.html#cb582-1" aria-hidden="true" tabindex="-1"></a>latentes_pelis <span class="ot">&lt;-</span> V_df <span class="sc">|&gt;</span> </span>
+<span id="cb582-2"><a href="dimensiones-latentes-para-recomendación.html#cb582-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">peli_id =</span> id) <span class="sc">|&gt;</span> </span>
+<span id="cb582-3"><a href="dimensiones-latentes-para-recomendación.html#cb582-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pelis_nombres <span class="sc">|&gt;</span> <span class="fu">left_join</span>(medias_peliculas))</span></code></pre></div>
 <pre><code>## Joining, by = &quot;peli_id&quot;</code></pre>
 <pre><code>## Joining, by = &quot;peli_id&quot;</code></pre>
-<div class="sourceCode" id="cb584"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb584-1"><a href="dimensiones-latentes-para-recomendación.html#cb584-1" aria-hidden="true" tabindex="-1"></a>latentes_pelis <span class="ot">&lt;-</span> latentes_pelis <span class="sc">|&gt;</span> </span>
-<span id="cb584-2"><a href="dimensiones-latentes-para-recomendación.html#cb584-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">num_grupo =</span> <span class="fu">ntile</span>(num_calif_peli, <span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="dimensiones-latentes-para-recomendación.html#cb585-1" aria-hidden="true" tabindex="-1"></a>latentes_pelis <span class="ot">&lt;-</span> latentes_pelis <span class="sc">|&gt;</span> </span>
+<span id="cb585-2"><a href="dimensiones-latentes-para-recomendación.html#cb585-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">num_grupo =</span> <span class="fu">ntile</span>(num_calif_peli, <span class="dv">10</span>))</span></code></pre></div>
 <p>Podemos examinar las dimensiones latentes:</p>
-<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="dimensiones-latentes-para-recomendación.html#cb585-1" aria-hidden="true" tabindex="-1"></a>top_tail <span class="ot">&lt;-</span> <span class="cf">function</span>(latentes_pelis, feature){</span>
-<span id="cb585-2"><a href="dimensiones-latentes-para-recomendación.html#cb585-2" aria-hidden="true" tabindex="-1"></a>top_df <span class="ot">&lt;-</span> <span class="fu">arrange</span>(latentes_pelis, {{ feature }} ) <span class="sc">|&gt;</span> </span>
-<span id="cb585-3"><a href="dimensiones-latentes-para-recomendación.html#cb585-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(nombre, {{ feature }}, media_peli, num_calif_peli) <span class="sc">|&gt;</span> </span>
-<span id="cb585-4"><a href="dimensiones-latentes-para-recomendación.html#cb585-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(num_calif_peli <span class="sc">&gt;</span> <span class="dv">2000</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb585-5"><a href="dimensiones-latentes-para-recomendación.html#cb585-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">100</span>) </span>
-<span id="cb585-6"><a href="dimensiones-latentes-para-recomendación.html#cb585-6" aria-hidden="true" tabindex="-1"></a>tail_df <span class="ot">&lt;-</span> <span class="fu">arrange</span>(latentes_pelis, <span class="fu">desc</span>({{ feature }}) ) <span class="sc">|&gt;</span> </span>
-<span id="cb585-7"><a href="dimensiones-latentes-para-recomendación.html#cb585-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(nombre, {{ feature }}, media_peli, num_calif_peli) <span class="sc">|&gt;</span> </span>
-<span id="cb585-8"><a href="dimensiones-latentes-para-recomendación.html#cb585-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(num_calif_peli <span class="sc">&gt;</span> <span class="dv">2000</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb585-9"><a href="dimensiones-latentes-para-recomendación.html#cb585-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">100</span>)</span>
-<span id="cb585-10"><a href="dimensiones-latentes-para-recomendación.html#cb585-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(top_df)</span>
-<span id="cb585-11"><a href="dimensiones-latentes-para-recomendación.html#cb585-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tail_df)</span>
-<span id="cb585-12"><a href="dimensiones-latentes-para-recomendación.html#cb585-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(top_df, tail_df)</span>
-<span id="cb585-13"><a href="dimensiones-latentes-para-recomendación.html#cb585-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb585-14"><a href="dimensiones-latentes-para-recomendación.html#cb585-14" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">top_tail</span>(latentes_pelis, features_3)</span></code></pre></div>
+<div class="sourceCode" id="cb586"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb586-1"><a href="dimensiones-latentes-para-recomendación.html#cb586-1" aria-hidden="true" tabindex="-1"></a>top_tail <span class="ot">&lt;-</span> <span class="cf">function</span>(latentes_pelis, feature){</span>
+<span id="cb586-2"><a href="dimensiones-latentes-para-recomendación.html#cb586-2" aria-hidden="true" tabindex="-1"></a>top_df <span class="ot">&lt;-</span> <span class="fu">arrange</span>(latentes_pelis, {{ feature }} ) <span class="sc">|&gt;</span> </span>
+<span id="cb586-3"><a href="dimensiones-latentes-para-recomendación.html#cb586-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(nombre, {{ feature }}, media_peli, num_calif_peli) <span class="sc">|&gt;</span> </span>
+<span id="cb586-4"><a href="dimensiones-latentes-para-recomendación.html#cb586-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(num_calif_peli <span class="sc">&gt;</span> <span class="dv">2000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb586-5"><a href="dimensiones-latentes-para-recomendación.html#cb586-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">100</span>) </span>
+<span id="cb586-6"><a href="dimensiones-latentes-para-recomendación.html#cb586-6" aria-hidden="true" tabindex="-1"></a>tail_df <span class="ot">&lt;-</span> <span class="fu">arrange</span>(latentes_pelis, <span class="fu">desc</span>({{ feature }}) ) <span class="sc">|&gt;</span> </span>
+<span id="cb586-7"><a href="dimensiones-latentes-para-recomendación.html#cb586-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(nombre, {{ feature }}, media_peli, num_calif_peli) <span class="sc">|&gt;</span> </span>
+<span id="cb586-8"><a href="dimensiones-latentes-para-recomendación.html#cb586-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(num_calif_peli <span class="sc">&gt;</span> <span class="dv">2000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb586-9"><a href="dimensiones-latentes-para-recomendación.html#cb586-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">100</span>)</span>
+<span id="cb586-10"><a href="dimensiones-latentes-para-recomendación.html#cb586-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(top_df)</span>
+<span id="cb586-11"><a href="dimensiones-latentes-para-recomendación.html#cb586-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tail_df)</span>
+<span id="cb586-12"><a href="dimensiones-latentes-para-recomendación.html#cb586-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(top_df, tail_df)</span>
+<span id="cb586-13"><a href="dimensiones-latentes-para-recomendación.html#cb586-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb586-14"><a href="dimensiones-latentes-para-recomendación.html#cb586-14" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">top_tail</span>(latentes_pelis, features_3)</span></code></pre></div>
 <pre><code>## # A tibble: 100 × 4
-##    nombre                        features_3 media_peli num_calif_peli
-##    &lt;chr&gt;                              &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
-##  1 The Best of Friends: Vol. 2       -0.850       4.11           3024
-##  2 Friends: The Series Finale        -0.829       4.12           3809
-##  3 Friends: Season 3                 -0.810       4.08           4844
-##  4 The Best of Friends: Vol. 1       -0.805       4.04           4999
-##  5 The Best of Friends: Season 3     -0.799       4.17           4325
-##  6 The Best of Friends: Season 4     -0.794       4.26           3792
-##  7 Friends: Season 4                 -0.787       4.15           4853
-##  8 Friends: Season 5                 -0.783       4.23           4386
-##  9 Friends: Season 6                 -0.780       4.28           3975
-## 10 Friends: Season 1                 -0.778       4.10           5064
+##    nombre                         features_3 media_peli num_calif_peli
+##    &lt;chr&gt;                               &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Something&#39;s Gotta Give            -0.323        3.76          24683
+##  2 Mean Girls                        -0.278        3.51          21738
+##  3 The Santa Clause                  -0.240        3.28           3065
+##  4 Sex and the City: Season 4        -0.129        4.29           7504
+##  5 Monsoon Wedding                   -0.0570       3.77           4266
+##  6 Ray                               -0.0226       4.19          22639
+##  7 Mostly Martha                     -0.0124       3.87           2373
+##  8 Rush Hour 2                        0.0155       3.46          17090
+##  9 Dangerous Minds                    0.0499       3.45           6390
+## 10 Ace Ventura: When Nature Calls     0.0869       3.31           6032
 ## # … with 90 more rows
 ## # A tibble: 100 × 4
-##    nombre                    features_3 media_peli num_calif_peli
-##    &lt;chr&gt;                          &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
-##  1 Brazil                          1.23       3.81           4557
-##  2 Hellraiser                      1.16       3.39           3582
-##  3 Night of the Living Dead        1.14       3.55           4722
-##  4 Dawn of the Dead                1.14       3.59           3432
-##  5 Evil Dead 2: Dead by Dawn       1.12       3.72           4148
-##  6 The Evil Dead                   1.08       3.76           4240
-##  7 Repo Man                        1.07       3.47           2662
-##  8 Dead Man                        1.06       3.63           2345
-##  9 A Clockwork Orange              1.03       3.72          15551
-## 10 Blade Runner                    1.02       3.96          13298
+##    nombre                                   features_3 media_peli num_calif_peli
+##    &lt;chr&gt;                                         &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Princess Mononoke                              1.38       4.03           4957
+##  2 Yojimbo                                        1.36       4.03           2405
+##  3 Logan&#39;s Run                                    1.29       3.46           3056
+##  4 Happiness                                      1.28       3.55           2929
+##  5 Creepshow                                      1.17       3.47           2098
+##  6 Seven Samurai                                  1.17       4.20           6498
+##  7 Ed Wood                                        1.09       3.57           5214
+##  8 Predator 2                                     1.06       3.18           2237
+##  9 Reservoir Dogs                                 1.05       4.01          18912
+## 10 Monty Python&#39;s The Meaning of Life: Spe…       1.02       4.00           5783
 ## # … with 90 more rows</code></pre>
 <p>Otra dimensión latente:</p>
-<div class="sourceCode" id="cb587"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb587-1"><a href="dimensiones-latentes-para-recomendación.html#cb587-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">top_tail</span>(latentes_pelis, features_4)</span></code></pre></div>
+<div class="sourceCode" id="cb588"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb588-1"><a href="dimensiones-latentes-para-recomendación.html#cb588-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">top_tail</span>(latentes_pelis, features_4)</span></code></pre></div>
 <pre><code>## # A tibble: 100 × 4
-##    nombre                                 features_4 media_peli num_calif_peli
-##    &lt;chr&gt;                                       &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
-##  1 But I&#39;m a Cheerleader                      -0.649       3.38           3087
-##  2 The Craft                                  -0.579       3.43           4000
-##  3 Bio-Dome                                   -0.569       2.80           2249
-##  4 Hocus Pocus                                -0.556       3.33           4131
-##  5 Now and Then                               -0.551       3.60           2712
-##  6 Encino Man                                 -0.540       3.11           4148
-##  7 Romy and Michele&#39;s High School Reunion     -0.530       3.18           3696
-##  8 Don&#39;t Tell Mom the Babysitter&#39;s Dead       -0.527       3.18           3585
-##  9 Son in Law                                 -0.524       3.26           3031
-## 10 Practical Magic                            -0.505       3.57           6847
+##    nombre                                   features_4 media_peli num_calif_peli
+##    &lt;chr&gt;                                         &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Dogma                                        -1.16        3.59          13693
+##  2 What the #$*! Do We Know!?                   -0.855       3.19           3064
+##  3 The Phantom of the Opera: Special Editi…     -0.762       3.63           7437
+##  4 Chasing Amy                                  -0.748       3.61           9853
+##  5 Igby Goes Down                               -0.679       3.41           6082
+##  6 Death to Smoochy                             -0.607       3.01           4225
+##  7 The Hitchhiker&#39;s Guide to the Galaxy         -0.605       2.97           5789
+##  8 Tuck Everlasting                             -0.596       3.49           4068
+##  9 Untamed Heart                                -0.559       3.55           2117
+## 10 The Lawnmower Man                            -0.559       2.98           2421
 ## # … with 90 more rows
 ## # A tibble: 100 × 4
-##    nombre                           features_4 media_peli num_calif_peli
-##    &lt;chr&gt;                                 &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
-##  1 Patton                                 1.19       3.99           7820
-##  2 Lawrence of Arabia                     1.13       4.13           8092
-##  3 The Bridge on the River Kwai           1.10       4.12           8184
-##  4 The Longest Day                        1.10       4.03           2403
-##  5 Citizen Kane                           1.06       4.03          12924
-##  6 Ben-Hur: Collector&#39;s Edition           1.06       3.97           5490
-##  7 The Godfather                          1.06       4.50          22253
-##  8 The Treasure of the Sierra Madre       1.05       4.01           2903
-##  9 High Noon                              1.04       3.91           4473
-## 10 The Godfather Part II                  1.04       4.40          14953
+##    nombre                features_4 media_peli num_calif_peli
+##    &lt;chr&gt;                      &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Jaws                       0.849       3.90          17062
+##  2 Sense and Sensibility      0.694       4.19           2325
+##  3 The Deer Hunter            0.690       3.90           7452
+##  4 North by Northwest         0.647       4.17           8964
+##  5 House of Sand and Fog      0.606       3.51          16118
+##  6 Yojimbo                    0.605       4.03           2405
+##  7 Seven Samurai              0.572       4.20           6498
+##  8 Sea of Love                0.521       3.49           2098
+##  9 Ray                        0.503       4.19          22639
+## 10 Eat Drink Man Woman        0.464       3.93           2320
 ## # … with 90 more rows</code></pre>
 <p><strong>Nota</strong>: Podemos usar <strong>ml_recommend</strong> para producir recomendaciones de películas para
 usuarios, o para cada película los usuarios más afines.</p>
-<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb589-1"><a href="dimensiones-latentes-para-recomendación.html#cb589-1" aria-hidden="true" tabindex="-1"></a><span class="co">#top_recom &lt;- ml_recommend(modelo, type = &quot;items&quot;, n = 1) </span></span></code></pre></div>
-<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb590-1"><a href="dimensiones-latentes-para-recomendación.html#cb590-1" aria-hidden="true" tabindex="-1"></a>sparklyr<span class="sc">::</span><span class="fu">spark_disconnect_all</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb590-1"><a href="dimensiones-latentes-para-recomendación.html#cb590-1" aria-hidden="true" tabindex="-1"></a><span class="co">#top_recom &lt;- ml_recommend(modelo, type = &quot;items&quot;, n = 1) </span></span></code></pre></div>
+<div class="sourceCode" id="cb591"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb591-1"><a href="dimensiones-latentes-para-recomendación.html#cb591-1" aria-hidden="true" tabindex="-1"></a>sparklyr<span class="sc">::</span><span class="fu">spark_disconnect_all</span>()</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 </div>
 <div id="ejercicio-5" class="section level3 unnumbered">
@@ -805,12 +805,12 @@ de permitirnos descubrir artículos preferidos con los que no necesariamente exi
 <h3><span class="header-section-number">6.3.1</span> Ejemplo</h3>
 <p>Consideremos los siguientes usuarios, donde medimos por ejemplo el número de minutos
 que pasó cada usuario viendo cada película:</p>
-<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb592-1"><a href="dimensiones-latentes-para-recomendación.html#cb592-1" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">usuario =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb592-2"><a href="dimensiones-latentes-para-recomendación.html#cb592-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">StarWars1 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">150</span>, <span class="dv">300</span>, <span class="dv">250</span>),</span>
-<span id="cb592-3"><a href="dimensiones-latentes-para-recomendación.html#cb592-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">StarWars2 =</span> <span class="fu">c</span>(<span class="dv">250</span>,  <span class="dv">200</span>, <span class="dv">0</span>, <span class="dv">200</span>, <span class="dv">220</span>,<span class="dv">180</span>), </span>
-<span id="cb592-4"><a href="dimensiones-latentes-para-recomendación.html#cb592-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">StarWars3 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">250</span>, <span class="dv">300</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb592-5"><a href="dimensiones-latentes-para-recomendación.html#cb592-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">Psycho =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>)) </span>
-<span id="cb592-6"><a href="dimensiones-latentes-para-recomendación.html#cb592-6" aria-hidden="true" tabindex="-1"></a>imp</span></code></pre></div>
+<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb593-1"><a href="dimensiones-latentes-para-recomendación.html#cb593-1" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">usuario =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb593-2"><a href="dimensiones-latentes-para-recomendación.html#cb593-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">StarWars1 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">150</span>, <span class="dv">300</span>, <span class="dv">250</span>),</span>
+<span id="cb593-3"><a href="dimensiones-latentes-para-recomendación.html#cb593-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">StarWars2 =</span> <span class="fu">c</span>(<span class="dv">250</span>,  <span class="dv">200</span>, <span class="dv">0</span>, <span class="dv">200</span>, <span class="dv">220</span>,<span class="dv">180</span>), </span>
+<span id="cb593-4"><a href="dimensiones-latentes-para-recomendación.html#cb593-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">StarWars3 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">250</span>, <span class="dv">300</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb593-5"><a href="dimensiones-latentes-para-recomendación.html#cb593-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">Psycho =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>)) </span>
+<span id="cb593-6"><a href="dimensiones-latentes-para-recomendación.html#cb593-6" aria-hidden="true" tabindex="-1"></a>imp</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##   usuario StarWars1 StarWars2 StarWars3 Psycho
 ##     &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
@@ -859,26 +859,26 @@ que <span class="math inline">\(\sum_{l=1}^k u_{i,l}v_{j,l}\)</span> sea cercano
 <div id="ejemplo-21" class="section level3" number="6.3.2">
 <h3><span class="header-section-number">6.3.2</span> Ejemplo</h3>
 <p>Veamos cómo se ven soluciones de un factor</p>
-<div class="sourceCode" id="cb594"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb594-1"><a href="dimensiones-latentes-para-recomendación.html#cb594-1" aria-hidden="true" tabindex="-1"></a>imp_mat <span class="ot">&lt;-</span> imp <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>usuario) <span class="sc">|&gt;</span> <span class="fu">as.matrix</span>()</span>
-<span id="cb594-2"><a href="dimensiones-latentes-para-recomendación.html#cb594-2" aria-hidden="true" tabindex="-1"></a>error_explicito <span class="ot">&lt;-</span> <span class="cf">function</span>(uv){</span>
-<span id="cb594-3"><a href="dimensiones-latentes-para-recomendación.html#cb594-3" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">matrix</span>(uv[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb594-4"><a href="dimensiones-latentes-para-recomendación.html#cb594-4" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">matrix</span>(uv[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb594-5"><a href="dimensiones-latentes-para-recomendación.html#cb594-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((imp_mat <span class="sc">-</span> u <span class="sc">%*%</span> <span class="fu">t</span>(v))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb594-6"><a href="dimensiones-latentes-para-recomendación.html#cb594-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb594-7"><a href="dimensiones-latentes-para-recomendación.html#cb594-7" aria-hidden="true" tabindex="-1"></a>error_implicito <span class="ot">&lt;-</span> <span class="cf">function</span>(uv){</span>
-<span id="cb594-8"><a href="dimensiones-latentes-para-recomendación.html#cb594-8" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">matrix</span>(uv[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb594-9"><a href="dimensiones-latentes-para-recomendación.html#cb594-9" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">matrix</span>(uv[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb594-10"><a href="dimensiones-latentes-para-recomendación.html#cb594-10" aria-hidden="true" tabindex="-1"></a>  pref_mat <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(imp_mat <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">-</span> u <span class="sc">%*%</span> <span class="fu">t</span>(v)</span>
-<span id="cb594-11"><a href="dimensiones-latentes-para-recomendación.html#cb594-11" aria-hidden="true" tabindex="-1"></a>  confianza <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> imp_mat</span>
-<span id="cb594-12"><a href="dimensiones-latentes-para-recomendación.html#cb594-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((confianza <span class="sc">*</span> pref_mat)<span class="sc">^</span><span class="dv">2</span> )</span>
-<span id="cb594-13"><a href="dimensiones-latentes-para-recomendación.html#cb594-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb595-1"><a href="dimensiones-latentes-para-recomendación.html#cb595-1" aria-hidden="true" tabindex="-1"></a>imp_mat <span class="ot">&lt;-</span> imp <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>usuario) <span class="sc">|&gt;</span> <span class="fu">as.matrix</span>()</span>
+<span id="cb595-2"><a href="dimensiones-latentes-para-recomendación.html#cb595-2" aria-hidden="true" tabindex="-1"></a>error_explicito <span class="ot">&lt;-</span> <span class="cf">function</span>(uv){</span>
+<span id="cb595-3"><a href="dimensiones-latentes-para-recomendación.html#cb595-3" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">matrix</span>(uv[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb595-4"><a href="dimensiones-latentes-para-recomendación.html#cb595-4" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">matrix</span>(uv[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb595-5"><a href="dimensiones-latentes-para-recomendación.html#cb595-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((imp_mat <span class="sc">-</span> u <span class="sc">%*%</span> <span class="fu">t</span>(v))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb595-6"><a href="dimensiones-latentes-para-recomendación.html#cb595-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb595-7"><a href="dimensiones-latentes-para-recomendación.html#cb595-7" aria-hidden="true" tabindex="-1"></a>error_implicito <span class="ot">&lt;-</span> <span class="cf">function</span>(uv){</span>
+<span id="cb595-8"><a href="dimensiones-latentes-para-recomendación.html#cb595-8" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">matrix</span>(uv[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb595-9"><a href="dimensiones-latentes-para-recomendación.html#cb595-9" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">matrix</span>(uv[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb595-10"><a href="dimensiones-latentes-para-recomendación.html#cb595-10" aria-hidden="true" tabindex="-1"></a>  pref_mat <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(imp_mat <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">-</span> u <span class="sc">%*%</span> <span class="fu">t</span>(v)</span>
+<span id="cb595-11"><a href="dimensiones-latentes-para-recomendación.html#cb595-11" aria-hidden="true" tabindex="-1"></a>  confianza <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> imp_mat</span>
+<span id="cb595-12"><a href="dimensiones-latentes-para-recomendación.html#cb595-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((confianza <span class="sc">*</span> pref_mat)<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb595-13"><a href="dimensiones-latentes-para-recomendación.html#cb595-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Si intentamos ajustar los ratings implícitos como si fueran explícitos, obtenemos
 los siguientes ajustados con un solo factor latente:</p>
-<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb595-1"><a href="dimensiones-latentes-para-recomendación.html#cb595-1" aria-hidden="true" tabindex="-1"></a>uv_inicial <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10</span>)</span>
-<span id="cb595-2"><a href="dimensiones-latentes-para-recomendación.html#cb595-2" aria-hidden="true" tabindex="-1"></a>opt_exp <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par =</span> uv_inicial, error_explicito, <span class="at">method =</span> <span class="st">&quot;BFGS&quot;</span>)</span>
-<span id="cb595-3"><a href="dimensiones-latentes-para-recomendación.html#cb595-3" aria-hidden="true" tabindex="-1"></a>opt_exp<span class="sc">$</span>par[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
-<pre><code>## [1] 11.20655292 13.89034010  3.52143326  0.09072608</code></pre>
-<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb597-1"><a href="dimensiones-latentes-para-recomendación.html#cb597-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(opt_exp<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])) <span class="sc">%*%</span> <span class="fu">t</span>(opt_exp<span class="sc">$</span>par[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">|&gt;</span> <span class="fu">round</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb596"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb596-1"><a href="dimensiones-latentes-para-recomendación.html#cb596-1" aria-hidden="true" tabindex="-1"></a>uv_inicial <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10</span>)</span>
+<span id="cb596-2"><a href="dimensiones-latentes-para-recomendación.html#cb596-2" aria-hidden="true" tabindex="-1"></a>opt_exp <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par =</span> uv_inicial, error_explicito, <span class="at">method =</span> <span class="st">&quot;BFGS&quot;</span>)</span>
+<span id="cb596-3"><a href="dimensiones-latentes-para-recomendación.html#cb596-3" aria-hidden="true" tabindex="-1"></a>opt_exp<span class="sc">$</span>par[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>## [1] 11.58752794 14.36155975  3.64109021  0.09349542</code></pre>
+<div class="sourceCode" id="cb598"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb598-1"><a href="dimensiones-latentes-para-recomendación.html#cb598-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(opt_exp<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])) <span class="sc">%*%</span> <span class="fu">t</span>(opt_exp<span class="sc">$</span>par[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">|&gt;</span> <span class="fu">round</span>()</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4]
 ## [1,]  118  146   37    1
 ## [2,]  124  154   39    1
@@ -889,10 +889,10 @@ los siguientes ajustados con un solo factor latente:</p>
 <p>Nótese que esta solución no es muy buena: una componente intenta capturar
 los patrones de consumo de estas cuatro películas.</p>
 <p>Si usamos preferencias y confianza, obtenemos:</p>
-<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="dimensiones-latentes-para-recomendación.html#cb599-1" aria-hidden="true" tabindex="-1"></a>opt_imp <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par =</span> uv_inicial, error_implicito, <span class="at">method =</span> <span class="st">&quot;BFGS&quot;</span>)</span>
-<span id="cb599-2"><a href="dimensiones-latentes-para-recomendación.html#cb599-2" aria-hidden="true" tabindex="-1"></a>opt_imp<span class="sc">$</span>par[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
-<pre><code>## [1] 1.2575847 1.2595933 1.2542359 0.7812503</code></pre>
-<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="dimensiones-latentes-para-recomendación.html#cb601-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(opt_imp<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])) <span class="sc">%*%</span> <span class="fu">t</span>(opt_imp<span class="sc">$</span>par[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb600"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb600-1"><a href="dimensiones-latentes-para-recomendación.html#cb600-1" aria-hidden="true" tabindex="-1"></a>opt_imp <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par =</span> uv_inicial, error_implicito, <span class="at">method =</span> <span class="st">&quot;BFGS&quot;</span>)</span>
+<span id="cb600-2"><a href="dimensiones-latentes-para-recomendación.html#cb600-2" aria-hidden="true" tabindex="-1"></a>opt_imp<span class="sc">$</span>par[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>## [1] 1.3238955 1.3260113 1.3203664 0.8220831</code></pre>
+<div class="sourceCode" id="cb602"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb602-1"><a href="dimensiones-latentes-para-recomendación.html#cb602-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(opt_imp<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])) <span class="sc">%*%</span> <span class="fu">t</span>(opt_imp<span class="sc">$</span>par[<span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4]
 ## [1,]    1    1 0.99 0.62
 ## [2,]    1    1 1.00 0.62
