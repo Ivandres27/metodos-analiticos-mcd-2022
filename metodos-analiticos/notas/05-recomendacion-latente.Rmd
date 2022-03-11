@@ -327,6 +327,39 @@ ml_regression_evaluator(preds, label_col = "calif", prediction_col = "prediction
   metric_name = "rmse")
 ```
 
+
+```{r}
+entrena_tbl_c <- dat_entrena |>
+  group_by(usuario_id) |>
+  mutate(calif_c = calif - mean(calif))
+## calculamos un id secuencial.
+dat_entrena_c$id_seq <- as.numeric(factor(dat_entrena_c$usuario_id))
+filter(pelis_nombres, str_detect(nombre,'Gremlins'))
+
+
+entrena_tbl <- entrena_tbl_c |> 
+  ungroup() |> 
+  select(peli_id, id_seq, calif)
+ejemplos <- function(pelicula, min_pares = 100){
+  mi_peli <- filter(dat_entrena_2, peli_id==pelicula) |> 
+             rename(peli_id_1 = peli_id, calif_c_1 = calif_c)
+  # vamos a calcular todas las similitudes con mi_peli - esto no es buena
+  # idea y discutiremos más adelante cómo evitarlo
+  datos_comp <- left_join(dat_entrena_2, mi_peli) |> 
+    filter(!is.na(peli_id_1) )
+  # calcular similitudes
+  out_sum <- datos_comp |> 
+      group_by(peli_id) |>
+      summarise(similitud = sim_cos(calif_c, calif_c_1), num_pares = n()) |> 
+    filter(num_pares > min_pares) |> 
+    left_join(pelis_nombres)
+  out_sum |> arrange(desc(similitud))  
+}
+```
+
+
+
+
 Y podemos traer a R los datos de validación (que son chicos) para examinar:
 
 ```{r}
