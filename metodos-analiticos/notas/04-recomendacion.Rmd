@@ -703,7 +703,11 @@ ejemplos <- function(pelicula, min_pares = 100){
 Nótese que las similitudes aparentan ser ruidosas si no filtramos por número de evaluaciones:
 
 ```{r}
-ejemplos(8199) |> head(20) |> knitr::kable()
+ejemplos(313) |> head(20) |> knitr::kable()
+ejemplos(940) |> head(20) |> knitr::kable()
+ejemplos(563) |> head(20) |> knitr::kable()
+ejemplos(851) |> head(20) |> knitr::kable()
+ejemplos(468) |> head(20) |> knitr::kable()
 ```
 
 ```{r}
