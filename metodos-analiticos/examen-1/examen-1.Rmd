@@ -46,16 +46,37 @@ skimr::skim(cereales_tbl)
 reducción de dimensionalidad. ¿Qué pasa si intentas correr componentes principales
 con los datos no estandarizados?
 
+**Es para extraer las componentes de forma que la escala de las variables no determine la direccion de las componentes, si no se estandarizan la varianza de los datos va a ser explicada en función de las variables con escala mas grande y no propiamente por la estructura de los datos, por lo que puede ser que una variable sea coolineal muy correlacionada a una componente**
+
 **Pregunta 2**: Corre componentes principales con los datos estandarizados (en R usa prcomp,
 en python sklearn.decomposition.PCA). Como nos interesan más los datos nutricionales,
 puedes quitar las variables weight, cups y shelf.
+
+```{r}
+comp <- princomp(cereales_tbl |> select(calories:vitamins),cor = TRUE)
+comp$loadings[,1]
+```
+
 
 **Pregunta 3** De la varianza total de la matriz escalada, 
 ¿cuánto explican las primeras tres componentes? Muestra cómo se calcula este número usando
 los valores singulares de la descomposición en valores singulares de los datos escalados.
 
+```{r}
+varianza_explicada<-comp$sdev/sum(comp$sdev)
+varianza_explicada[1:3]
+sum(varianza_explicada[1:3])
+
+```
+
+
 **Pregunta 4**: Haz una gráfica de todos los cereales
 en sus primeras dos componentes principales. ¿Qué tipo de cereales están en cada parte de la gráfica?
+
+```{r}
+
+```
+
 
 **Pregunta 5**. Complementa tu explicación de la pregunta anterior viendo los pesos de las
 variables originales para las primeras dos componentes principales. Según estos pesos,
@@ -63,6 +84,18 @@ variables originales para las primeras dos componentes principales. Según estos
 se calculan sus dos componentes principales utilizando la matriz de pesos y los datos
 originales estandarizados.
 
+```{r}
+
+```
+
+
 **Pregunta 6**: Agrega a la gráfica de cereales de la pregunta 3 los cereales de la tabla 
 nuevos_cereales.csv. Nota: no recalcules la DVS ni la estandarización, proyecta estos nuevos puntos en el espacio de las primeras dos componentes principales (recuerda cómo es la proyección de los datos originales sobre el espacio de componentes: z = Xv).
+
+```{r}
+
+```
+
+
+
 
