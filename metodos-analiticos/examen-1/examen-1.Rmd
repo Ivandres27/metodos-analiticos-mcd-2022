@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 cereales_tbl <- read_csv("datos/cereales.csv")
+nuevos_cereales_tbl <- read_csv("datos/cereales_nuevos.csv")
+
 ```
 
 ```{r}
@@ -53,7 +55,7 @@ en python sklearn.decomposition.PCA). Como nos interesan más los datos nutricio
 puedes quitar las variables weight, cups y shelf.
 
 ```{r}
-comp <- princomp(cereales_tbl |> select(calories:vitamins),cor = TRUE)
+comp <- princomp(cereales_tbl |> select(calories:vitamins))
 comp$loadings[,1]
 ```
 
@@ -61,6 +63,11 @@ comp$loadings[,1]
 **Pregunta 3** De la varianza total de la matriz escalada, 
 ¿cuánto explican las primeras tres componentes? Muestra cómo se calcula este número usando
 los valores singulares de la descomposición en valores singulares de los datos escalados.
+
+**La varinza explicad de los componentes esta en funcion de los valores singulares, ordenados de mayor a menor el primer valor singular corresponde a la primera componente y asi sucesivamente, esto se debe a lo siguiente:** (Dado que la proyeccion de los datos sobre los componentes es: $$Xv_{j}=\sigma_{j}u_{j}$$) 
+
+$$Var(\sigma_{j}u_{j}) =\frac{\sigma_{j}}{n}\sum_k (u_{jk}-0)^2=\frac{\sigma_{j}}{n}$$  
+**La cual representa la varianza de la j-esima componente**
 
 ```{r}
 varianza_explicada<-comp$sdev/sum(comp$sdev)
@@ -97,16 +104,36 @@ originales estandarizados.
 ```{r}
 comp1<-comp$loadings[,1]
 comp2<-comp$loadings[,2]
-comp1
-comp2
+arrange(as.data.frame(comp1),desc(comp1))
+arrange(as.data.frame(comp2),desc(comp2))
+
+
 ```
+**Viendo los pesos para las primeras 2 componentes en la primera podemos ver que la ponderacion es positiva para sodio, vitaminas, carbos y calorias con una diferencia considerable de sodio sobre las demás, con ponderación negativa proteina, grasa, fibre azucares y potacio, con potacio teniendo un peso bastante mayor en valor absoluto comparado con las demás. Para la segunda componente solo carbos tienen un peso negativo y relativamente pequeño en valor absoluto comparado con las demás variables, del resto de las variables las de mayor ponderación son potacio y sodio (en ese orden)**
+
+**Para calular la proyección de los datos en la componente j se realiza el producto:**
+$$Xv_{j}=\sigma_{j}u_{j}$$
+**por lo que la proyeccion del k-esimo cereal sobre las primeras dos componentes se obtiene:**
+$$x_{krenglon}^tv_{1}=\sigma_{1}u_{1k}$$
+$$x_{krenglon}^tv_{2}=\sigma_{2}u_{2k}$$
+
 
 
 **Pregunta 6**: Agrega a la gráfica de cereales de la pregunta 3 los cereales de la tabla 
 nuevos_cereales.csv. Nota: no recalcules la DVS ni la estandarización, proyecta estos nuevos puntos en el espacio de las primeras dos componentes principales (recuerda cómo es la proyección de los datos originales sobre el espacio de componentes: z = Xv).
 
 ```{r}
-
+cereales_nuevos<-nuevos_cereales_tbl |> select(calories:vitamins)
+proyeccion<-as.matrix(cereales_nuevos)%*%comp$loadings[,1:2]
+proyeccion<-as.data.frame(proyeccion)
+proyeccion$Cereales<-nuevos_cereales_tbl$name
+ggplot(proyeccion, aes(x=Comp.1, y= -Comp.2, label=Cereales )) + 
+  geom_vline(xintercept=0, colour = 'red') +
+  geom_hline(yintercept=0, colour = 'red') +
+  geom_point()+
+  geom_text_repel(size=2.5, segment.alpha = 0.3, force = 0.1, seed=202) +
+  xlab('Arroz/Maiz y Frutos Secos/Nueces') +
+  ylab('Fibra y azucarados')
 ```
 
 
